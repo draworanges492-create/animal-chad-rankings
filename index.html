@@ -1062,7 +1062,7 @@
       userVotes[id] = dir;
     }
 
-    renderRankings();
+    updateRankCardVoteUI(id);
     renderStats();
 
     try{
@@ -1076,15 +1076,41 @@
       rec.upvotes = data.upvotes;
       rec.downvotes = data.downvotes;
       if (data.myVote) userVotes[id] = data.myVote; else delete userVotes[id];
-      renderRankings();
+      updateRankCardVoteUI(id);
       renderStats();
     } catch(e){
       console.error("Vote failed to save, rolling back locally", e);
       rec.upvotes = prevUp; rec.downvotes = prevDown;
       if (prevVote) userVotes[id] = prevVote; else delete userVotes[id];
-      renderRankings();
+      updateRankCardVoteUI(id);
       renderStats();
     }
+  }
+
+  // Patches a single rank card's trend pill + vote buttons in place,
+  // without touching the DOM for any other card. Avoids re-triggering
+  // the list's entrance animation (which caused a double "flash" on
+  // every vote, since a vote used to trigger two full re-renders).
+  function updateRankCardVoteUI(id){
+    const card = document.querySelector(`.rank-card[data-animal-id="${id}"]`);
+    if (!card) return;
+    const rec = getAnimalById(id);
+    if (!rec) return;
+    const vote = userVotes[id];
+    const trend = netVotes(rec);
+    const trendClass = trend > 0 ? "pos" : trend < 0 ? "neg" : "";
+    const trendIcon = trend > 0 ? ARROW_UP_SM : trend < 0 ? ARROW_DOWN_SM : "";
+    const trendLabel = trend > 0 ? `+${trend}` : trend < 0 ? `${trend}` : "0";
+
+    const pill = card.querySelector(".trend-pill");
+    if (pill){
+      pill.className = `trend-pill ${trendClass}`;
+      pill.innerHTML = `${trendIcon}${trendLabel}`;
+    }
+    const upBtn = card.querySelector('.vote-btn[data-dir="up"]');
+    const downBtn = card.querySelector('.vote-btn[data-dir="down"]');
+    if (upBtn) upBtn.classList.toggle("active-up", vote === "up");
+    if (downBtn) downBtn.classList.toggle("active-down", vote === "down");
   }
 
   const ARROW_UP = `<svg viewBox="0 0 24 24"><path d="M12 4l8 10h-6v6h-4v-6H4z"/></svg>`;
