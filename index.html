@@ -1251,6 +1251,7 @@
   }
 
   function renderNews(){
+    const now = new Date();
     const todayIdx = dayOfYear(now);
     document.getElementById("newsHeadline").textContent = HEADLINES[todayIdx % HEADLINES.length];
 
