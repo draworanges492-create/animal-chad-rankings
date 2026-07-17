@@ -36,8 +36,6 @@
   @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
   @keyframes shimmer{ 0%{ background-position:-200% center; } 100%{ background-position:200% center; } }
   @keyframes popIn{ 0%{ transform:scale(0.85); opacity:0; } 60%{ transform:scale(1.08); opacity:1; } 100%{ transform:scale(1); } }
-  @keyframes flashGreen{ 0%{ background:var(--panel); } 30%{ background:rgba(61,220,132,0.3); } 100%{ background:var(--panel); } }
-  @keyframes flashRed{ 0%{ background:var(--panel); } 30%{ background:rgba(255,85,85,0.3); } 100%{ background:var(--panel); } }
   @keyframes tickPulse{ 0%{ transform:scale(1); } 50%{ transform:scale(1.12); color:#fff; } 100%{ transform:scale(1); } }
   @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.75; } }
 
@@ -222,17 +220,8 @@
     align-items:center;
     gap:14px;
     cursor:pointer;
-    transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     animation:fadeInUp 0.4s ease backwards;
   }
-  .rank-card:hover{
-    transform:translateY(-3px);
-    border-color:var(--gold);
-    box-shadow:0 10px 24px rgba(0,0,0,0.4);
-  }
-  .rank-card.flash-up{ animation:flashGreen 1s ease; }
-  .rank-card.flash-down{ animation:flashRed 1s ease; }
-  .rank-card.flash-neutral{ animation:flashGreen 0.6s ease; }
 
   .rank-badge{
     min-width:40px;
@@ -301,14 +290,6 @@
   }
   .rank-card.expanded .rank-desc{ display:block; }
   .rank-card.expanded{ align-items:flex-start; }
-
-  .rank-score-box{
-    text-align:center;
-    min-width:56px;
-    flex-shrink:0;
-  }
-  .rank-score-box .val{ font-weight:900; font-size:1.2rem; color:var(--white); display:block; }
-  .rank-score-box .lbl{ font-size:0.6rem; color:var(--gray); font-weight:700; text-transform:uppercase; }
 
   .trend-pill{
     display:flex;
@@ -462,14 +443,12 @@
     .rank-info{ flex-basis:100%; order:1; }
     .rank-badge{ order:0; }
     .rank-avatar{ order:0; }
-    .rank-score-box{ order:2; margin-left:auto; }
-    .trend-pill{ order:3; }
-    .vote-buttons{ order:4; }
-    .chevron{ order:5; }
-    .rank-card.expanded .rank-desc{ flex-basis:100%; order:6; }
+    .trend-pill{ order:2; margin-left:auto; }
+    .vote-buttons{ order:3; }
+    .chevron{ order:4; }
+    .rank-card.expanded .rank-desc{ flex-basis:100%; order:5; }
   }
   @media (max-width:520px){
-    .rank-score-box{ display:none; }
     .brand-text .full{ display:none; }
     .topbar{ padding:12px; }
   }
@@ -539,9 +518,6 @@
   .profile-sci{ color:var(--gray); font-style:italic; font-size:0.9rem; margin-bottom:6px; }
   .profile-nick{ color:var(--gold); font-weight:700; font-size:0.95rem; margin-bottom:14px; }
   .profile-score-row{ display:flex; align-items:center; gap:14px; margin-bottom:14px; flex-wrap:wrap; }
-  .profile-score{ text-align:center; }
-  .profile-score .val{ font-weight:900; font-size:1.4rem; color:var(--white); display:block; }
-  .profile-score .lbl{ font-size:0.65rem; color:var(--gray); font-weight:700; text-transform:uppercase; }
   .profile-vote-buttons{ margin-top:4px; }
 
   .profile-blurb{
@@ -713,7 +689,7 @@
   <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 
-<footer>The Ultimate Animal Chad Rankings &mdash; Chad Score is fixed per animal; rank order locks weekly and updates every Monday based on community votes.</footer>
+<footer>The Ultimate Animal Chad Rankings &mdash; rank order locks weekly and updates every Monday based on community votes.</footer>
 
 <script>
 (function(){
@@ -1072,13 +1048,11 @@
     if (!rec) return;
     const existing = userVotes[id];
     const prevUp = rec.upvotes, prevDown = rec.downvotes, prevVote = existing;
-    let flashDir = dir;
 
     if (existing === dir){
       if (dir === "up") rec.upvotes = Math.max(0, rec.upvotes - 1);
       else rec.downvotes = Math.max(0, rec.downvotes - 1);
       delete userVotes[id];
-      flashDir = "neutral";
     } else if (existing){
       if (existing === "up"){ rec.upvotes = Math.max(0, rec.upvotes - 1); rec.downvotes += 1; }
       else { rec.downvotes = Math.max(0, rec.downvotes - 1); rec.upvotes += 1; }
@@ -1088,7 +1062,7 @@
       userVotes[id] = dir;
     }
 
-    renderRankings(id, flashDir);
+    renderRankings();
     renderStats();
 
     try{
@@ -1102,13 +1076,13 @@
       rec.upvotes = data.upvotes;
       rec.downvotes = data.downvotes;
       if (data.myVote) userVotes[id] = data.myVote; else delete userVotes[id];
-      renderRankings(id, flashDir);
+      renderRankings();
       renderStats();
     } catch(e){
       console.error("Vote failed to save, rolling back locally", e);
       rec.upvotes = prevUp; rec.downvotes = prevDown;
       if (prevVote) userVotes[id] = prevVote; else delete userVotes[id];
-      renderRankings(id, "neutral");
+      renderRankings();
       renderStats();
     }
   }
@@ -1122,7 +1096,7 @@
      RENDER: RANKINGS — order comes from the frozen rankOrder
      snapshot; only the trend pill / vote counts / buttons update live.
   --------------------------------------------------------- */
-  function renderRankings(flashId, flashDir){
+  function renderRankings(){
     const list = document.getElementById("rankList");
     const expandedIds = new Set();
     list.querySelectorAll(".rank-card.expanded").forEach(c => expandedIds.add(c.dataset.animalId));
@@ -1157,7 +1131,6 @@
           <div class="rank-nick">"${meta.nick}"</div>
           <div class="rank-desc">${meta.desc}</div>
         </div>
-        <div class="rank-score-box"><span class="val">${meta.chadScore}</span><span class="lbl">Chad Score</span></div>
         <div class="trend-pill ${trendClass}">${trendIcon}${trendLabel}</div>
         <div class="vote-buttons">
           <button class="vote-btn ${vote==='up' ? 'active-up' : ''}" data-id="${id}" data-dir="up" title="Upvote">${ARROW_UP}</button>
@@ -1172,12 +1145,6 @@
         if (e.target.closest(".vote-btn")) return;
         location.hash = "animal-" + id;
       });
-
-      if (id === flashId){
-        const cls = flashDir === "up" ? "flash-up" : flashDir === "down" ? "flash-down" : "flash-neutral";
-        card.classList.add(cls);
-        setTimeout(() => card.classList.remove("flash-up","flash-down","flash-neutral"), 1000);
-      }
     });
 
     list.querySelectorAll(".vote-btn").forEach(btn => {
@@ -1381,7 +1348,6 @@
           <div class="profile-sci">${meta.sci || ""}</div>
           <div class="profile-nick">"${meta.nick}"</div>
           <div class="profile-score-row">
-            <div class="profile-score"><span class="val">${meta.chadScore}</span><span class="lbl">Chad Score</span></div>
             <div class="trend-pill ${trendClass}">${trendIcon}${trendLabel}</div>
           </div>
           <div class="vote-buttons profile-vote-buttons">
