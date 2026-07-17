@@ -573,6 +573,158 @@
     .profile-photo{ width:120px; height:120px; }
     .profile-stats-grid{ grid-template-columns:1fr; }
   }
+
+  /* ---------------- VOTE LIMIT CHIP ---------------- */
+  .vote-limit-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:7px 14px;
+    border-radius:20px;
+    font-size:0.8rem;
+    font-weight:700;
+    color:var(--gray);
+    margin-bottom:16px;
+  }
+  .vote-limit-chip .n{ color:var(--accent); font-weight:900; }
+  .vote-limit-chip.maxed .n{ color:var(--red); }
+  .vote-btn[disabled]{ opacity:0.35; cursor:not-allowed; }
+  .vote-btn[disabled]:hover{ transform:none; border-color:var(--border); }
+
+  /* ---------------- MATCHUP (FACE OFF) ---------------- */
+  .matchup-wrap{ display:flex; align-items:stretch; gap:14px; }
+  .matchup-card{
+    flex:1;
+    min-width:0;
+    background:var(--panel);
+    border:2px solid var(--border);
+    border-radius:16px;
+    padding:16px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color 0.2s ease, transform 0.15s ease;
+    animation:fadeInUp 0.35s ease backwards;
+  }
+  .matchup-card:hover{ border-color:var(--accent); transform:translateY(-3px); }
+  .matchup-card.chosen{ border-color:var(--accent); background:linear-gradient(180deg, rgba(62,207,142,0.15), var(--panel)); }
+  .matchup-card.declined{ opacity:0.45; }
+  .matchup-card.locked{ pointer-events:none; }
+  .matchup-avatar{
+    width:100%;
+    aspect-ratio:1/1;
+    border-radius:14px;
+    overflow:hidden;
+    margin-bottom:12px;
+    border:2px solid var(--border);
+  }
+  .matchup-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .matchup-name{ font-weight:900; font-size:1rem; margin-bottom:4px; }
+  .matchup-nick{ color:var(--gray); font-size:0.8rem; font-style:italic; margin-bottom:8px; }
+  .matchup-record{ color:var(--accent); font-weight:800; font-size:0.85rem; min-height:1.2em; }
+  .matchup-vs{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:1.1rem;
+    color:var(--gray);
+    padding:0 4px;
+    flex-shrink:0;
+  }
+  .matchup-note{ text-align:center; color:var(--gray); font-size:0.85rem; margin-top:16px; }
+  .matchup-tally{ text-align:center; color:var(--gray); font-size:0.8rem; margin-top:6px; }
+  .matchup-next-btn{
+    display:block;
+    margin:18px auto 0;
+    background:var(--accent);
+    color:#0a0f0d;
+    border:none;
+    font-weight:800;
+    font-size:0.9rem;
+    padding:11px 22px;
+    border-radius:24px;
+    cursor:pointer;
+    transition:transform 0.15s ease;
+  }
+  .matchup-next-btn:hover{ transform:translateY(-2px); }
+  @media (max-width:600px){
+    .matchup-name{ font-size:0.85rem; }
+    .matchup-nick{ display:none; }
+  }
+
+  /* ---------------- NOMINATE / SUGGEST ---------------- */
+  .nominate-form{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:20px;
+  }
+  .nominate-form label{ display:block; font-size:0.8rem; font-weight:800; color:var(--gray); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.4px; }
+  .nominate-form input, .nominate-form textarea{
+    width:100%;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 12px;
+    color:var(--white);
+    font-family:var(--font-body);
+    font-size:0.9rem;
+    margin-bottom:14px;
+    resize:vertical;
+  }
+  .nominate-form input:focus, .nominate-form textarea:focus{ outline:none; border-color:var(--accent); }
+  .nominate-submit-btn{
+    background:var(--accent);
+    color:#0a0f0d;
+    border:none;
+    font-weight:800;
+    font-size:0.9rem;
+    padding:11px 22px;
+    border-radius:24px;
+    cursor:pointer;
+    transition:transform 0.15s ease;
+  }
+  .nominate-submit-btn:hover{ transform:translateY(-2px); }
+  .nominate-submit-btn[disabled]{ opacity:0.5; cursor:not-allowed; transform:none; }
+  .nominate-note{ color:var(--gray); font-size:0.8rem; margin-top:10px; min-height:1.2em; }
+  .nomination-list{ display:flex; flex-direction:column; gap:10px; }
+  .nomination-item{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    animation:fadeInUp 0.35s ease backwards;
+  }
+  .nomination-info{ flex:1; min-width:0; }
+  .nomination-name{ font-weight:800; font-size:0.95rem; }
+  .nomination-reason{ color:var(--gray); font-size:0.82rem; margin-top:4px; line-height:1.4; }
+  .nomination-support-btn{
+    flex-shrink:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:8px 14px;
+    cursor:pointer;
+    color:var(--white);
+    font-weight:900;
+    transition:all 0.15s ease;
+  }
+  .nomination-support-btn:hover{ border-color:var(--accent); transform:translateY(-2px); }
+  .nomination-support-btn.voted{ background:var(--accent); color:#0a0f0d; border-color:var(--accent); }
+  .nomination-support-count{ font-size:1rem; }
+  .nomination-support-label{ font-size:0.6rem; text-transform:uppercase; letter-spacing:0.4px; }
+  .nomination-empty{ color:var(--gray); font-size:0.9rem; text-align:center; padding:20px; }
 </style>
 </head>
 <body>
@@ -600,6 +752,14 @@
       <svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
       Stats
     </button>
+    <button class="tab-btn" data-page="matchup">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+      Face Off
+    </button>
+    <button class="tab-btn" data-page="nominate">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      Suggest
+    </button>
   </div>
   <div class="reset-chip">Next reset in <span class="cd-val" id="miniCountdown">--</span></div>
 </div>
@@ -612,6 +772,7 @@
       <h2>The Rankings</h2>
       <p>Vote to sway next week's shake-up — placements lock in until the next Monday reset.</p>
     </div>
+    <div class="vote-limit-chip" id="voteLimitChip">You have <span class="n" id="voteLimitCount">5</span> votes left this week</div>
     <div class="hint-strip" id="hintStrip">
       <svg class="hint-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
       <div class="hint-text">
@@ -670,6 +831,34 @@
       <h3>Top Downvoted</h3>
       <div id="lbDownvoted"></div>
     </div>
+  </section>
+
+  <!-- MATCHUP / FACE OFF PAGE -->
+  <section class="page" id="page-matchup">
+    <div class="page-header">
+      <h2>Face Off</h2>
+      <p>Pick a winner. Get a new matchup instantly — play as many rounds as you want.</p>
+    </div>
+    <div class="matchup-wrap" id="matchupWrap"></div>
+    <div class="matchup-note" id="matchupNote"></div>
+    <div class="matchup-tally" id="matchupTally"></div>
+  </section>
+
+  <!-- NOMINATE / SUGGEST PAGE -->
+  <section class="page" id="page-nominate">
+    <div class="page-header">
+      <h2>Suggest an Animal</h2>
+      <p>Nominate an animal for the roster. Popular suggestions get added.</p>
+    </div>
+    <div class="nominate-form">
+      <label for="nomName">Animal Name</label>
+      <input type="text" id="nomName" maxlength="60" placeholder="e.g. Wolverine">
+      <label for="nomReason">Why does it belong? (optional)</label>
+      <textarea id="nomReason" rows="3" maxlength="300" placeholder="What makes it a Chad?"></textarea>
+      <button class="nominate-submit-btn" id="nomSubmitBtn">Submit Suggestion</button>
+      <div class="nominate-note" id="nomNote"></div>
+    </div>
+    <div class="nomination-list" id="nominationList"></div>
   </section>
 
   <!-- ANIMAL PROFILE PAGE -->
@@ -999,6 +1188,9 @@
   let rankOrder = baselineOrder();
   let pollState = { periodStart: null, options: [], votes: {}, userVoted: null };
   let serverPeriod = null;
+  let h2hState = {};
+  ANIMALS.forEach(a => h2hState[a.id] = { wins: 0, losses: 0 });
+  let voteLimit = 5;
 
   function getAnimalById(id){ return animalState.find(a => a.id === id); }
 
@@ -1017,6 +1209,15 @@
       votes: Object.assign({}, data.poll.votes),
       userVoted: data.poll.myVote
     };
+    if (data.h2h){
+      ANIMALS.forEach(a => {
+        h2hState[a.id] = {
+          wins: (data.h2h[a.id] && data.h2h[a.id].wins) || 0,
+          losses: (data.h2h[a.id] && data.h2h[a.id].losses) || 0
+        };
+      });
+    }
+    if (data.voteLimit) voteLimit = data.voteLimit;
   }
 
   async function fetchServerState(){
@@ -1045,6 +1246,14 @@
     const rec = getAnimalById(id);
     if (!rec) return;
     const existing = userVotes[id];
+
+    // Casting a brand-new vote (not toggling off or switching direction on
+    // an existing one) consumes one of the voter's limited weekly slots.
+    if (!existing && Object.keys(userVotes).length >= voteLimit){
+      flashVoteLimitChip();
+      return;
+    }
+
     const prevUp = rec.upvotes, prevDown = rec.downvotes, prevVote = existing;
 
     if (existing === dir){
@@ -1062,6 +1271,7 @@
 
     updateRankCardVoteUI(id);
     renderStats();
+    renderVoteLimitChip();
 
     try{
       const res = await fetch("/api/vote", {
@@ -1069,20 +1279,65 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ animalId: id, dir, voterId: VOTER_ID })
       });
+      if (res.status === 403){
+        // server-side cap kicked in (e.g. another tab used up the remaining slots)
+        rec.upvotes = prevUp; rec.downvotes = prevDown;
+        if (prevVote) userVotes[id] = prevVote; else delete userVotes[id];
+        updateRankCardVoteUI(id);
+        renderStats();
+        flashVoteLimitChip();
+        return;
+      }
       if (!res.ok) throw new Error("vote failed: " + res.status);
       const data = await res.json();
       rec.upvotes = data.upvotes;
       rec.downvotes = data.downvotes;
       if (data.myVote) userVotes[id] = data.myVote; else delete userVotes[id];
+      if (typeof data.voteLimit === "number") voteLimit = data.voteLimit;
       updateRankCardVoteUI(id);
       renderStats();
+      renderVoteLimitChip();
     } catch(e){
       console.error("Vote failed to save, rolling back locally", e);
       rec.upvotes = prevUp; rec.downvotes = prevDown;
       if (prevVote) userVotes[id] = prevVote; else delete userVotes[id];
       updateRankCardVoteUI(id);
       renderStats();
+      renderVoteLimitChip();
     }
+  }
+
+  /* ---------------------------------------------------------
+     VOTE LIMIT CHIP — shows remaining weekly votes, flashes red
+     when the voter tries to spend a vote they don't have left.
+  --------------------------------------------------------- */
+  function renderVoteLimitChip(){
+    const chip = document.getElementById("voteLimitChip");
+    const countEl = document.getElementById("voteLimitCount");
+    if (!chip || !countEl) return;
+    const used = Object.keys(userVotes).length;
+    const left = Math.max(0, voteLimit - used);
+    countEl.textContent = left;
+    chip.classList.toggle("maxed", left === 0);
+    updateAllVoteButtonsDisabledState();
+  }
+  // Any vote button for an animal the voter hasn't already voted on gets
+  // disabled once the weekly cap is spent (toggling an existing vote off,
+  // or switching its direction, stays enabled since those don't cost a slot).
+  function updateAllVoteButtonsDisabledState(){
+    const atCap = Object.keys(userVotes).length >= voteLimit;
+    document.querySelectorAll(".vote-btn").forEach(btn => {
+      const id = btn.dataset.id;
+      const isActive = btn.classList.contains("active-up") || btn.classList.contains("active-down");
+      const hasVoteOnThisAnimal = !!userVotes[id];
+      btn.disabled = atCap && !hasVoteOnThisAnimal && !isActive;
+    });
+  }
+  function flashVoteLimitChip(){
+    const chip = document.getElementById("voteLimitChip");
+    if (!chip) return;
+    chip.classList.add("maxed");
+    chip.animate([{ transform: "scale(1)" }, { transform: "scale(1.06)" }, { transform: "scale(1)" }], { duration: 300 });
   }
 
   // Patches a single rank card's trend pill + vote buttons in place,
@@ -1177,6 +1432,7 @@
         castVote(btn.dataset.id, btn.dataset.dir);
       });
     });
+    updateAllVoteButtonsDisabledState();
   }
 
   /* ---------------------------------------------------------
@@ -1330,6 +1586,222 @@
   }
 
   /* ---------------------------------------------------------
+     FACE OFF (HEAD-TO-HEAD MATCHUPS) — a lightweight "this or that"
+     mode, separate from the weekly up/down vote cap. Pairs are picked
+     client-side (low stakes), submitted to /api/h2h-vote which tracks
+     a running win/loss tally per animal for the current week.
+  --------------------------------------------------------- */
+  let currentMatchup = null; // { a: id, b: id }
+  let matchupChoice = null;  // id just picked, mid-animation
+  let matchupsPlayed = 0;
+
+  function pickMatchupPair(){
+    const ids = ANIMALS.map(a => a.id);
+    const a = ids[Math.floor(Math.random() * ids.length)];
+    let b = a;
+    while (b === a){ b = ids[Math.floor(Math.random() * ids.length)]; }
+    return { a, b };
+  }
+
+  function h2hRecordLabel(id){
+    const rec = h2hState[id] || { wins: 0, losses: 0 };
+    const total = rec.wins + rec.losses;
+    if (total === 0) return "No matchups yet";
+    const pct = Math.round((rec.wins / total) * 100);
+    return `${pct}% win rate (${total} played)`;
+  }
+
+  function renderMatchup(){
+    const wrap = document.getElementById("matchupWrap");
+    const note = document.getElementById("matchupNote");
+    const tally = document.getElementById("matchupTally");
+    if (!wrap || !currentMatchup) return;
+
+    [currentMatchup.a, currentMatchup.b].forEach((id, i) => {
+      const meta = animalMeta[id];
+      const isChosen = matchupChoice === id;
+      const isDeclined = matchupChoice && matchupChoice !== id;
+      const card = document.createElement("div");
+      card.className = "matchup-card" + (isChosen ? " chosen" : "") + (isDeclined ? " declined" : "") + (matchupChoice ? " locked" : "");
+      card.dataset.animalId = id;
+      card.style.animationDelay = (i * 0.08) + "s";
+      card.innerHTML = `
+        <div class="matchup-avatar"><img src="${meta.img}" alt="${meta.name}" loading="lazy" style="${meta.imgStyle || ''}"></div>
+        <div class="matchup-name">${meta.name}</div>
+        <div class="matchup-nick">"${meta.nick}"</div>
+        <div class="matchup-record">${h2hRecordLabel(id)}</div>
+      `;
+      if (!matchupChoice){
+        card.addEventListener("click", () => castMatchupVote(id, id === currentMatchup.a ? currentMatchup.b : currentMatchup.a));
+      }
+      if (i === 0){
+        wrap.innerHTML = "";
+        wrap.appendChild(card);
+      } else {
+        const vs = document.createElement("div");
+        vs.className = "matchup-vs";
+        vs.textContent = "VS";
+        wrap.appendChild(vs);
+        wrap.appendChild(card);
+      }
+    });
+
+    if (matchupChoice){
+      note.innerHTML = `<button class="matchup-next-btn" id="matchupNextBtn">Next Matchup</button>`;
+      const nextBtn = document.getElementById("matchupNextBtn");
+      if (nextBtn) nextBtn.addEventListener("click", nextMatchup);
+    } else {
+      note.textContent = "Tap an animal to pick the winner.";
+    }
+    tally.textContent = matchupsPlayed > 0 ? `You've played ${matchupsPlayed} matchup${matchupsPlayed===1?'':'s'} this session.` : "";
+  }
+
+  function nextMatchup(){
+    currentMatchup = pickMatchupPair();
+    matchupChoice = null;
+    renderMatchup();
+  }
+
+  async function castMatchupVote(winnerId, loserId){
+    if (matchupChoice) return;
+    matchupChoice = winnerId;
+    matchupsPlayed += 1;
+    renderMatchup();
+    try{
+      const res = await fetch("/api/h2h-vote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ winnerId, loserId, voterId: VOTER_ID })
+      });
+      if (!res.ok) throw new Error("h2h vote failed: " + res.status);
+      const data = await res.json();
+      if (data.h2h){
+        Object.keys(data.h2h).forEach(id => { h2hState[id] = data.h2h[id]; });
+      }
+      renderMatchup();
+    } catch(e){
+      console.error("Matchup vote failed to save", e);
+    }
+  }
+
+  function initMatchup(){
+    currentMatchup = pickMatchupPair();
+    renderMatchup();
+  }
+
+  /* ---------------------------------------------------------
+     SUGGEST / NOMINATE — lets visitors propose a new animal for the
+     roster and back suggestions they like. Persists across weekly
+     resets (unlike votes/poll/matchups) until reviewed.
+  --------------------------------------------------------- */
+  let nominationsLoaded = false;
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+  }
+
+  async function fetchNominations(){
+    const list = document.getElementById("nominationList");
+    if (!list) return;
+    try{
+      const res = await fetch(`/api/nominations?voterId=${encodeURIComponent(VOTER_ID)}`, { cache: "no-store" });
+      if (!res.ok) throw new Error("nominations fetch failed: " + res.status);
+      const data = await res.json();
+      renderNominations(data.nominations || []);
+      nominationsLoaded = true;
+    } catch(e){
+      console.error("Failed to load suggestions", e);
+      if (!nominationsLoaded){
+        list.innerHTML = `<div class="nomination-empty">Couldn't load suggestions right now — try again shortly.</div>`;
+      }
+    }
+  }
+
+  function renderNominations(nominations){
+    const list = document.getElementById("nominationList");
+    if (!list) return;
+    list.innerHTML = "";
+    if (nominations.length === 0){
+      list.innerHTML = `<div class="nomination-empty">No suggestions yet — be the first to nominate an animal.</div>`;
+      return;
+    }
+    nominations.forEach((nom, i) => {
+      const item = document.createElement("div");
+      item.className = "nomination-item";
+      item.style.animationDelay = (i * 0.03) + "s";
+      item.innerHTML = `
+        <div class="nomination-info">
+          <div class="nomination-name">${escapeHtml(nom.name)}</div>
+          ${nom.reason ? `<div class="nomination-reason">${escapeHtml(nom.reason)}</div>` : ""}
+        </div>
+        <button class="nomination-support-btn ${nom.myVote ? 'voted' : ''}" data-id="${nom.id}" ${nom.myVote ? 'disabled' : ''}>
+          <span class="nomination-support-count">${nom.support}</span>
+          <span class="nomination-support-label">${nom.myVote ? 'Backed' : 'Support'}</span>
+        </button>
+      `;
+      list.appendChild(item);
+    });
+    list.querySelectorAll(".nomination-support-btn:not([disabled])").forEach(btn => {
+      btn.addEventListener("click", () => supportNomination(btn.dataset.id));
+    });
+  }
+
+  async function supportNomination(nominationId){
+    try{
+      const res = await fetch("/api/nominate-vote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nominationId, voterId: VOTER_ID })
+      });
+      if (!res.ok) throw new Error("support failed: " + res.status);
+      await fetchNominations();
+    } catch(e){
+      console.error("Failed to back suggestion", e);
+    }
+  }
+
+  async function submitNomination(){
+    const nameEl = document.getElementById("nomName");
+    const reasonEl = document.getElementById("nomReason");
+    const btn = document.getElementById("nomSubmitBtn");
+    const note = document.getElementById("nomNote");
+    const name = nameEl.value.trim();
+    if (name.length < 2){
+      note.textContent = "Give it a real animal name first.";
+      return;
+    }
+    btn.disabled = true;
+    note.textContent = "Submitting...";
+    try{
+      const res = await fetch("/api/nominate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, reason: reasonEl.value.trim(), voterId: VOTER_ID })
+      });
+      const data = await res.json();
+      if (!res.ok){
+        note.textContent = data.error || "Couldn't submit that suggestion.";
+        btn.disabled = false;
+        return;
+      }
+      nameEl.value = "";
+      reasonEl.value = "";
+      note.textContent = "Thanks — your suggestion is live below.";
+      await fetchNominations();
+    } catch(e){
+      console.error("Failed to submit suggestion", e);
+      note.textContent = "Something went wrong — try again.";
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function initNominate(){
+    const btn = document.getElementById("nomSubmitBtn");
+    if (btn) btn.addEventListener("click", submitNomination);
+  }
+
+  /* ---------------------------------------------------------
      COUNTDOWN TIMER (mini chip in top bar)
   --------------------------------------------------------- */
   function updateCountdown(){
@@ -1362,6 +1834,10 @@
     const trendClass = trend > 0 ? "pos" : trend < 0 ? "neg" : "";
     const trendIcon = trend > 0 ? ARROW_UP_SM : trend < 0 ? ARROW_DOWN_SM : "";
     const trendLabel = trend > 0 ? `+${trend}` : trend < 0 ? `${trend}` : "0";
+    const h2h = h2hState[id] || { wins: 0, losses: 0 };
+    const h2hTotal = h2h.wins + h2h.losses;
+    const h2hPct = h2hTotal > 0 ? Math.round((h2h.wins / h2hTotal) * 100) : null;
+    const h2hLabel = h2hTotal > 0 ? `${h2h.wins}W – ${h2h.losses}L (${h2hPct}% win rate)` : "No Face Off matchups yet this week";
 
     container.innerHTML = `
       <div class="profile-hero">
@@ -1391,6 +1867,7 @@
         <div class="profile-stat"><span class="lbl">Lifespan</span><span class="val">${meta.lifespan || "—"}</span></div>
         <div class="profile-stat"><span class="lbl">Top Speed</span><span class="val">${meta.topSpeed || "—"}</span></div>
         <div class="profile-stat wide"><span class="lbl">Conservation Status</span><span class="val">${meta.conservation || "—"}</span></div>
+        <div class="profile-stat wide"><span class="lbl">Face Off Record This Week</span><span class="val">${h2hLabel}</span></div>
       </div>
 
       <div class="profile-section">
@@ -1411,12 +1888,13 @@
         renderAnimalProfile(id);
       });
     });
+    updateAllVoteButtonsDisabledState();
   }
 
   /* ---------------------------------------------------------
      TAB NAVIGATION (acts like real pages, hash-routed)
   --------------------------------------------------------- */
-  const PAGES = ["rankings","news","poll","stats","animal"];
+  const PAGES = ["rankings","news","poll","stats","matchup","nominate","animal"];
   function showPage(rawName){
     let name = rawName;
     let animalId = null;
@@ -1426,6 +1904,7 @@
     }
     if (PAGES.indexOf(name) === -1) name = "rankings";
     if (name === "animal"){ renderAnimalProfile(animalId); }
+    if (name === "nominate"){ fetchNominations(); }
 
     PAGES.forEach(p => {
       document.getElementById("page-" + p).classList.toggle("active", p === name);
@@ -1491,6 +1970,7 @@
       renderRankings();
       renderStats();
       renderPoll();
+      renderVoteLimitChip();
       if (location.hash && location.hash.indexOf("#animal-") === 0){
         renderAnimalProfile(location.hash.slice("#animal-".length));
       }
@@ -1508,11 +1988,14 @@
   renderRankings();
   renderStats();
   renderPoll();
+  renderVoteLimitChip();
   updateCountdown();
   setInterval(updateCountdown, 1000);
   initNav();
   initBackToTop();
   initHintStrip();
+  initMatchup();
+  initNominate();
 
   syncFromServer();
 
