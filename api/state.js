@@ -1,5 +1,5 @@
 const { ANIMAL_IDS } = require("./_animals");
-const { kv, K_VOTES_UP, K_VOTES_DOWN, K_POLL_VOTES, zeroFillCounts, ensurePeriod, voterVotesKey, pollVoterKey } = require("./_store");
+const { kv, K_VOTES_UP, K_VOTES_DOWN, K_POLL_VOTES, K_H2H_WINS, K_H2H_LOSSES, VOTE_LIMIT, zeroFillCounts, ensurePeriod, voterVotesKey, pollVoterKey } = require("./_store");
 
 module.exports = async function handler(req, res){
   if (req.method !== "GET"){
@@ -11,15 +11,19 @@ module.exports = async function handler(req, res){
   try{
     const { period, rankOrder, pollOptions } = await ensurePeriod();
 
-    const [upMap, downMap, pollVotesMap] = await Promise.all([
+    const [upMap, downMap, pollVotesMap, h2hWinsMap, h2hLossesMap] = await Promise.all([
       kv.hgetall(K_VOTES_UP),
       kv.hgetall(K_VOTES_DOWN),
-      kv.hgetall(K_POLL_VOTES)
+      kv.hgetall(K_POLL_VOTES),
+      kv.hgetall(K_H2H_WINS),
+      kv.hgetall(K_H2H_LOSSES)
     ]);
 
     const upvotes = zeroFillCounts(ANIMAL_IDS, upMap || {});
     const downvotes = zeroFillCounts(ANIMAL_IDS, downMap || {});
     const pollVotes = zeroFillCounts(pollOptions, pollVotesMap || {});
+    const h2hWins = zeroFillCounts(ANIMAL_IDS, h2hWinsMap || {});
+    const h2hLosses = zeroFillCounts(ANIMAL_IDS, h2hLossesMap || {});
 
     const voterId = typeof req.query.voterId === "string" ? req.query.voterId.slice(0, 100) : null;
     let myVotes = {};
@@ -41,7 +45,12 @@ module.exports = async function handler(req, res){
         return acc;
       }, {}),
       poll: { options: pollOptions, votes: pollVotes, myVote: myPollVote },
-      myVotes
+      h2h: ANIMAL_IDS.reduce((acc, id) => {
+        acc[id] = { wins: h2hWins[id], losses: h2hLosses[id] };
+        return acc;
+      }, {}),
+      myVotes,
+      voteLimit: VOTE_LIMIT
     });
   } catch (err){
     console.error(err);

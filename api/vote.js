@@ -1,5 +1,5 @@
 const { ANIMAL_IDS } = require("./_animals");
-const { kv, K_VOTES_UP, K_VOTES_DOWN, ensurePeriod, voterVotesKey, VOTER_TTL_SECONDS } = require("./_store");
+const { kv, K_VOTES_UP, K_VOTES_DOWN, ensurePeriod, voterVotesKey, VOTER_TTL_SECONDS, VOTE_LIMIT } = require("./_store");
 
 module.exports = async function handler(req, res){
   if (req.method !== "POST"){
@@ -24,32 +24,40 @@ module.exports = async function handler(req, res){
 
     let newState = dir;
     if (existing === dir){
-      // toggling the same direction off
+      // toggling the same direction off — always allowed, frees up a slot
       await kv.hdel(hashKey, animalId);
       await kv.hincrby(dir === "up" ? K_VOTES_UP : K_VOTES_DOWN, animalId, -1);
       newState = null;
     } else if (existing){
-      // switching from the opposite direction
+      // switching from the opposite direction — doesn't consume a new slot
       await kv.hset(hashKey, { [animalId]: dir });
       await kv.hincrby(existing === "up" ? K_VOTES_UP : K_VOTES_DOWN, animalId, -1);
       await kv.hincrby(dir === "up" ? K_VOTES_UP : K_VOTES_DOWN, animalId, 1);
     } else {
-      // first vote from this voter for this animal
+      // first vote from this voter for this animal — only allowed under the weekly cap
+      const votesUsed = await kv.hlen(hashKey);
+      if (votesUsed >= VOTE_LIMIT){
+        res.status(403).json({ error: `You've used all ${VOTE_LIMIT} of your votes this week`, votesUsed, voteLimit: VOTE_LIMIT });
+        return;
+      }
       await kv.hset(hashKey, { [animalId]: dir });
       await kv.hincrby(dir === "up" ? K_VOTES_UP : K_VOTES_DOWN, animalId, 1);
     }
     await kv.expire(hashKey, VOTER_TTL_SECONDS);
 
-    const [upvotes, downvotes] = await Promise.all([
+    const [upvotes, downvotes, votesUsed] = await Promise.all([
       kv.hget(K_VOTES_UP, animalId),
-      kv.hget(K_VOTES_DOWN, animalId)
+      kv.hget(K_VOTES_DOWN, animalId),
+      kv.hlen(hashKey)
     ]);
 
     res.status(200).json({
       animalId,
       upvotes: Math.max(0, Number(upvotes) || 0),
       downvotes: Math.max(0, Number(downvotes) || 0),
-      myVote: newState
+      myVote: newState,
+      votesUsed,
+      voteLimit: VOTE_LIMIT
     });
   } catch (err){
     console.error(err);

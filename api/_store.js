@@ -8,10 +8,18 @@ const K_VOTES_UP = "chad:votes:up";
 const K_VOTES_DOWN = "chad:votes:down";
 const K_POLL_OPTIONS = "chad:pollOptions";
 const K_POLL_VOTES = "chad:pollVotes";
+const K_H2H_WINS = "chad:h2h:wins";
+const K_H2H_LOSSES = "chad:h2h:losses";
+const K_NOMINATIONS = "chad:nominations";
+const K_NOMINATION_VOTES = "chad:nominationVotes";
 const VOTER_TTL_SECONDS = 9 * 24 * 60 * 60; // 9 days, one day past the weekly boundary
+const VOTE_LIMIT = 5; // max up/down votes a single voter can cast per week
 
 function voterVotesKey(period, voterId){ return `chad:voterVotes:${period}:${voterId}`; }
 function pollVoterKey(period, voterId){ return `chad:pollVoter:${period}:${voterId}`; }
+function h2hVoterCountKey(period, voterId){ return `chad:h2hCount:${period}:${voterId}`; }
+function nominationVoterKey(nominationId, voterId){ return `chad:nominationVoter:${nominationId}:${voterId}`; }
+function nominationSubmitCountKey(period, voterId){ return `chad:nominationSubmits:${period}:${voterId}`; }
 
 function pickPollOptions(){
   const shuffled = ANIMAL_IDS.slice().sort(() => Math.random() - 0.5);
@@ -50,6 +58,8 @@ async function freezeFinalOrder(){
 // rollover: freezes a new rank order from the votes that just finished
 // accumulating, zeroes the tallies, and rolls a fresh 3-animal poll.
 // A short lock prevents two simultaneous requests from double-resetting.
+// Note: nominations (K_NOMINATIONS / K_NOMINATION_VOTES) are intentionally
+// NOT reset here — they persist across weeks until reviewed.
 async function ensurePeriod(){
   const currentPeriod = currentPeriodStartISO();
   const storedPeriod = await kv.get(K_PERIOD);
@@ -77,7 +87,10 @@ async function ensurePeriod(){
     rankOrder = baselineOrder();
   } else {
     rankOrder = await freezeFinalOrder();
-    await Promise.all([kv.del(K_VOTES_UP), kv.del(K_VOTES_DOWN), kv.del(K_POLL_VOTES)]);
+    await Promise.all([
+      kv.del(K_VOTES_UP), kv.del(K_VOTES_DOWN), kv.del(K_POLL_VOTES),
+      kv.del(K_H2H_WINS), kv.del(K_H2H_LOSSES)
+    ]);
   }
   const pollOptions = pickPollOptions();
 
@@ -93,8 +106,9 @@ async function ensurePeriod(){
 module.exports = {
   kv,
   K_PERIOD, K_RANKORDER, K_VOTES_UP, K_VOTES_DOWN, K_POLL_OPTIONS, K_POLL_VOTES,
-  VOTER_TTL_SECONDS,
-  voterVotesKey, pollVoterKey,
+  K_H2H_WINS, K_H2H_LOSSES, K_NOMINATIONS, K_NOMINATION_VOTES,
+  VOTER_TTL_SECONDS, VOTE_LIMIT,
+  voterVotesKey, pollVoterKey, h2hVoterCountKey, nominationVoterKey, nominationSubmitCountKey,
   zeroFillCounts,
   ensurePeriod
 };
