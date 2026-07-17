@@ -1485,9 +1485,9 @@
 
   /* ---------------------------------------------------------
      LIVE SYNC — pulls the latest shared totals from /api/state and
-     re-renders. Called on load, then on a ~12s timer so vote counts
-     from other visitors show up without a manual refresh, and once
-     more right at the weekly boundary to pick up the frozen order.
+     re-renders. Called once on page load; votes from other visitors
+     show up the next time the page is loaded or refreshed, rather
+     than polling in the background.
   --------------------------------------------------------- */
   let syncInFlight = false;
   async function syncFromServer(){
@@ -1525,7 +1525,6 @@
   initHintStrip();
 
   syncFromServer();
-  setInterval(syncFromServer, 12000);
 
 })();
 </script>
