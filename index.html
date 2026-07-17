@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ultimate Animal Chad Rankings</title>
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --panel:#15151a;
+    --panel2:#1d1d24;
+    --border:#2a2a33;
+    --gold:#ffd700;
+    --silver:#c9c9c9;
+    --bronze:#cd8a4d;
+    --white:#ffffff;
+    --gray:#93939f;
+    --green:#3ddc84;
+    --red:#ff5555;
+  }
+  *{box-sizing:border-box;}
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--white);
+    font-family:'Segoe UI', Arial, sans-serif;
+    padding-bottom:60px;
+  }
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:var(--bg); }
+  ::-webkit-scrollbar-thumb{ background:#3a3a3a; border-radius:6px; }
+  ::-webkit-scrollbar-thumb:hover{ background:var(--gold); }
+
+  @keyframes fadeInUp{ from{ opacity:0; transform:translateY(18px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+  @keyframes shimmer{ 0%{ background-position:-200% center; } 100%{ background-position:200% center; } }
+  @keyframes popIn{ 0%{ transform:scale(0.85); opacity:0; } 60%{ transform:scale(1.08); opacity:1; } 100%{ transform:scale(1); } }
+  @keyframes flashGreen{ 0%{ background:var(--panel); } 30%{ background:rgba(61,220,132,0.3); } 100%{ background:var(--panel); } }
+  @keyframes flashRed{ 0%{ background:var(--panel); } 30%{ background:rgba(255,85,85,0.3); } 100%{ background:var(--panel); } }
+  @keyframes tickPulse{ 0%{ transform:scale(1); } 50%{ transform:scale(1.12); color:#fff; } 100%{ transform:scale(1); } }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.75; } }
+
+  /* ---------------- TOP BAR ---------------- */
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:12px 24px;
+    background:rgba(10,10,10,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+    flex-wrap:wrap;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:900;
+    font-size:1.05rem;
+    white-space:nowrap;
+  }
+  .brand-mark{
+    width:36px;
+    height:36px;
+    border-radius:10px;
+    background:linear-gradient(135deg, var(--gold), #ff9d00);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#0a0a0a;
+    font-weight:900;
+    font-size:1.1rem;
+  }
+  .brand-text{
+    background:linear-gradient(90deg, #ffd700 0%, #fff6c8 25%, #ffd700 50%, #fff6c8 75%, #ffd700 100%);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:shimmer 6s linear infinite;
+    line-height:1.1;
+  }
+  .tabs{
+    display:flex;
+    gap:6px;
+    background:var(--panel);
+    padding:5px;
+    border-radius:14px;
+    border:1px solid var(--border);
+  }
+  .tab-btn{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    background:transparent;
+    border:none;
+    color:var(--gray);
+    font-weight:700;
+    font-size:0.85rem;
+    padding:9px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all 0.25s ease;
+    white-space:nowrap;
+  }
+  .tab-btn svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; }
+  .tab-btn:hover{ color:var(--white); }
+  .tab-btn.active{
+    background:var(--gold);
+    color:#0a0a0a;
+    box-shadow:0 4px 14px rgba(255,215,0,0.25);
+  }
+  .reset-chip{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:0.75rem;
+    font-weight:700;
+    color:var(--gray);
+    white-space:nowrap;
+  }
+  .reset-chip .cd-val{ color:var(--gold); font-weight:900; }
+
+  @media (max-width:900px){
+    .topbar{ justify-content:center; }
+    .tabs{ order:3; width:100%; justify-content:center; overflow-x:auto; }
+  }
+
+  /* ---------------- BANNER ---------------- */
+  .banner{
+    display:none;
+    background:linear-gradient(90deg,#ffd700,#ff9d00);
+    color:#0a0a0a;
+    text-align:center;
+    font-weight:900;
+    padding:12px;
+    font-size:1rem;
+    letter-spacing:0.5px;
+  }
+  .banner.show{ display:block; animation:pulse 1.5s ease-in-out infinite; }
+
+  /* ---------------- LAYOUT ---------------- */
+  .container{
+    max-width:900px;
+    margin:0 auto;
+    padding:24px 16px 10px;
+  }
+  .page{ display:none; }
+  .page.active{ display:block; animation:fadeInUp 0.4s ease; }
+
+  .page-header{
+    margin-bottom:18px;
+  }
+  .page-header h2{
+    font-size:1.5rem;
+    font-weight:900;
+    margin:0 0 4px;
+    color:var(--white);
+  }
+  .page-header p{
+    color:var(--gray);
+    margin:0;
+    font-size:0.9rem;
+  }
+
+  /* ---------------- HINT STRIP ---------------- */
+  .hint-strip{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    background:linear-gradient(90deg, rgba(255,215,0,0.10), rgba(255,157,0,0.04));
+    border:1px solid var(--border);
+    border-left:3px solid var(--gold);
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:16px;
+    animation:fadeInUp 0.4s ease;
+  }
+  .hint-strip.hidden{ display:none; }
+  .hint-icon{
+    width:18px; height:18px; flex-shrink:0; margin-top:1px;
+    fill:none; stroke:var(--gold); stroke-width:2;
+  }
+  .hint-text{
+    flex:1;
+    font-size:0.85rem;
+    color:var(--gray);
+    line-height:1.5;
+  }
+  .hint-text strong{ color:var(--white); }
+  .hint-emphasis{ color:var(--gold); font-weight:800; }
+  .hint-close{
+    background:transparent;
+    border:none;
+    color:var(--gray);
+    cursor:pointer;
+    padding:4px;
+    flex-shrink:0;
+    border-radius:6px;
+    transition:color 0.2s ease, background 0.2s ease;
+  }
+  .hint-close:hover{ color:var(--white); background:var(--panel2); }
+  .hint-close svg{ width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2; }
+
+  /* ---------------- RANKINGS ---------------- */
+  .rank-list{ display:flex; flex-direction:column; gap:10px; }
+  .rank-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    cursor:pointer;
+    transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    animation:fadeInUp 0.4s ease backwards;
+  }
+  .rank-card:hover{
+    transform:translateY(-3px);
+    border-color:var(--gold);
+    box-shadow:0 10px 24px rgba(0,0,0,0.4);
+  }
+  .rank-card.flash-up{ animation:flashGreen 1s ease; }
+  .rank-card.flash-down{ animation:flashRed 1s ease; }
+  .rank-card.flash-neutral{ animation:flashGreen 0.6s ease; }
+
+  .rank-badge{
+    min-width:40px;
+    height:40px;
+    border-radius:10px;
+    background:var(--panel2);
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    font-size:1.1rem;
+    flex-shrink:0;
+  }
+  .rank-badge.gold{ background:var(--gold); color:#0a0a0a; }
+  .rank-badge.silver{ background:var(--silver); color:#0a0a0a; }
+  .rank-badge.bronze{ background:var(--bronze); color:#0a0a0a; }
+
+  .rank-avatar{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    font-size:2.4rem;
+    color:#0a0a0a;
+    background:linear-gradient(135deg, var(--gold), #ff9d00);
+    overflow:hidden;
+    border:3px solid var(--border);
+    cursor:pointer;
+    transition:border-color 0.2s ease, transform 0.2s ease;
+  }
+  .rank-avatar:hover{ border-color:var(--gold); transform:scale(1.03); }
+  .rank-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  @media (max-width:600px){
+    .rank-avatar{ width:84px; height:84px; font-size:1.9rem; }
+  }
+
+  .rank-info{ flex:1; min-width:0; }
+  .rank-name-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .rank-name{ font-weight:900; font-size:1.05rem; }
+  .rank-tag{
+    font-size:0.7rem;
+    font-weight:800;
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .rank-nick{ color:var(--gray); font-size:0.85rem; font-style:italic; }
+  .rank-desc{
+    margin-top:8px;
+    padding-top:8px;
+    border-top:1px dashed var(--border);
+    color:var(--gray);
+    font-size:0.85rem;
+    line-height:1.4;
+    display:none;
+  }
+  .rank-card.expanded .rank-desc{ display:block; }
+  .rank-card.expanded{ align-items:flex-start; }
+
+  .rank-score-box{
+    text-align:center;
+    min-width:56px;
+    flex-shrink:0;
+  }
+  .rank-score-box .val{ font-weight:900; font-size:1.2rem; color:var(--white); display:block; }
+  .rank-score-box .lbl{ font-size:0.6rem; color:var(--gray); font-weight:700; text-transform:uppercase; }
+
+  .trend-pill{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:6px 10px;
+    border-radius:20px;
+    font-weight:800;
+    font-size:0.8rem;
+    flex-shrink:0;
+    background:var(--panel2);
+    color:var(--gray);
+  }
+  .trend-pill svg{ width:12px; height:12px; fill:currentColor; }
+  .trend-pill.pos{ background:rgba(61,220,132,0.15); color:var(--green); }
+  .trend-pill.neg{ background:rgba(255,85,85,0.15); color:var(--red); }
+
+  .chevron{
+    color:var(--gray);
+    flex-shrink:0;
+    transition:transform 0.25s ease;
+  }
+  .rank-card.expanded .chevron{ transform:rotate(90deg); }
+  .chevron svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; }
+
+  .vote-buttons{ display:flex; gap:6px; flex-shrink:0; }
+  .vote-btn{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:var(--white);
+    padding:8px 10px;
+    cursor:pointer;
+    transition:all 0.15s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .vote-btn svg{ width:14px; height:14px; fill:currentColor; pointer-events:none; }
+  .vote-btn:hover{ border-color:var(--gold); transform:translateY(-2px) scale(1.08); }
+  .vote-btn:active{ transform:scale(0.9); }
+  .vote-btn.active-up{ background:var(--green); color:#0a0a0a; border-color:var(--green); animation:popIn 0.35s ease; }
+  .vote-btn.active-down{ background:var(--red); color:#0a0a0a; border-color:var(--red); animation:popIn 0.35s ease; }
+
+  /* ---------------- NEWS ---------------- */
+  .news-feature{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-left:4px solid var(--red);
+    border-radius:12px;
+    padding:16px 18px;
+    margin-bottom:20px;
+    font-weight:700;
+  }
+  .news-feature .news-label{
+    color:var(--red);
+    font-weight:900;
+    font-size:0.75rem;
+    letter-spacing:1px;
+    display:block;
+    margin-bottom:6px;
+  }
+  .news-list{ display:flex; flex-direction:column; gap:10px; }
+  .news-item{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    transition:transform 0.2s ease, border-color 0.2s ease;
+    animation:fadeInUp 0.4s ease backwards;
+  }
+  .news-item:hover{ transform:translateX(4px); border-color:var(--gold); }
+  .news-item .news-date{ color:var(--gray); font-size:0.7rem; font-weight:700; text-transform:uppercase; }
+  .news-item .news-headline{ font-weight:700; margin:4px 0 8px; }
+  .news-item .news-animal-tag{
+    display:inline-block;
+    background:var(--panel2);
+    color:var(--gold);
+    font-size:0.7rem;
+    font-weight:800;
+    padding:4px 10px;
+    border-radius:20px;
+  }
+
+  /* ---------------- POLL ---------------- */
+  .poll-box{ background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px; }
+  .poll-question{ font-weight:900; font-size:1.1rem; margin-bottom:16px; }
+  .poll-option{
+    position:relative;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    cursor:pointer;
+    overflow:hidden;
+    transition:border-color 0.2s, transform 0.2s ease;
+    animation:fadeInUp 0.4s ease backwards;
+  }
+  .poll-option:hover{ border-color:var(--gold); transform:translateX(4px); }
+  .poll-option.voted{ cursor:default; border-color:var(--gold); }
+  .poll-fill{
+    position:absolute; top:0; left:0; bottom:0;
+    background:linear-gradient(90deg, rgba(255,215,0,0.28), rgba(255,215,0,0.08));
+    z-index:0; width:0;
+    transition:width 0.8s cubic-bezier(0.22,1,0.36,1);
+  }
+  .poll-option-content{ position:relative; z-index:1; display:flex; justify-content:space-between; font-weight:700; }
+  .poll-note{ color:var(--gray); font-size:0.85rem; margin-top:10px; }
+
+  /* ---------------- STATS ---------------- */
+  .stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+  .stat-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 14px;
+    text-align:center;
+    transition:transform 0.25s ease, border-color 0.25s ease;
+  }
+  .stat-card:hover{ transform:translateY(-4px); border-color:var(--gold); }
+  .stat-card .val{ font-size:1.25rem; font-weight:900; color:var(--gold); display:block; margin-bottom:4px; }
+  .stat-card .lbl{ color:var(--gray); font-size:0.75rem; font-weight:700; }
+  .leaderboard{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px 18px;
+    margin-bottom:16px;
+  }
+  .leaderboard h3{ margin:0 0 12px; font-size:1rem; color:var(--white); }
+  .lb-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 0;
+    border-bottom:1px solid var(--border);
+    font-size:0.9rem;
+  }
+  .lb-row:last-child{ border-bottom:none; }
+  .lb-name{ font-weight:700; }
+  .lb-val{ font-weight:900; }
+  .lb-val.pos{ color:var(--green); }
+  .lb-val.neg{ color:var(--red); }
+
+  @media (max-width:700px){
+    .stats-grid{ grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width:600px){
+    .rank-card{ flex-wrap:wrap; row-gap:10px; }
+    .rank-info{ flex-basis:100%; order:1; }
+    .rank-badge{ order:0; }
+    .rank-avatar{ order:0; }
+    .rank-score-box{ order:2; margin-left:auto; }
+    .trend-pill{ order:3; }
+    .vote-buttons{ order:4; }
+    .chevron{ order:5; }
+    .rank-card.expanded .rank-desc{ flex-basis:100%; order:6; }
+  }
+  @media (max-width:520px){
+    .rank-score-box{ display:none; }
+    .brand-text .full{ display:none; }
+    .topbar{ padding:12px; }
+  }
+
+  .back-to-top{
+    position:fixed; bottom:20px; right:20px;
+    background:var(--gold); color:#0a0a0a; border:none; border-radius:50%;
+    width:44px; height:44px; font-weight:900; font-size:1.1rem; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity 0.3s ease, transform 0.3s ease;
+    z-index:60; box-shadow:0 4px 14px rgba(0,0,0,0.4);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .back-to-top svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.5; }
+  .back-to-top.show{ opacity:1; pointer-events:auto; }
+  .back-to-top:hover{ transform:translateY(-3px); }
+
+  footer{ text-align:center; color:var(--gray); padding:30px 16px 10px; font-size:0.8rem; }
+
+  /* ---------------- ANIMAL PROFILE ---------------- */
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--white);
+    font-weight:700;
+    font-size:0.85rem;
+    padding:9px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    margin-bottom:18px;
+    transition:border-color 0.2s ease, transform 0.2s ease;
+  }
+  .back-link:hover{ border-color:var(--gold); transform:translateX(-2px); }
+  .back-link svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; }
+
+  .profile-hero{
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+  }
+  .profile-photo{
+    width:180px;
+    height:180px;
+    border-radius:20px;
+    object-fit:cover;
+    border:3px solid var(--border);
+    flex-shrink:0;
+  }
+  .profile-hero-info{ flex:1; min-width:220px; }
+  .profile-rank-badge{
+    display:inline-block;
+    background:var(--panel2);
+    color:var(--gold);
+    font-weight:800;
+    font-size:0.75rem;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    padding:5px 12px;
+    border-radius:20px;
+    margin-bottom:8px;
+  }
+  .profile-name{ font-size:1.7rem; font-weight:900; margin:0 0 2px; }
+  .profile-sci{ color:var(--gray); font-style:italic; font-size:0.9rem; margin-bottom:6px; }
+  .profile-nick{ color:var(--gold); font-weight:700; font-size:0.95rem; margin-bottom:14px; }
+  .profile-score-row{ display:flex; align-items:center; gap:14px; margin-bottom:14px; flex-wrap:wrap; }
+  .profile-score{ text-align:center; }
+  .profile-score .val{ font-weight:900; font-size:1.4rem; color:var(--white); display:block; }
+  .profile-score .lbl{ font-size:0.65rem; color:var(--gray); font-weight:700; text-transform:uppercase; }
+  .profile-vote-buttons{ margin-top:4px; }
+
+  .profile-blurb{
+    font-weight:700;
+    font-size:1.05rem;
+    color:var(--white);
+    border-left:3px solid var(--gold);
+    padding-left:14px;
+    margin:0 0 20px;
+  }
+
+  .profile-stats-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .profile-stat{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .profile-stat.wide{ grid-column:1 / -1; }
+  .profile-stat .lbl{ color:var(--gray); font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.4px; }
+  .profile-stat .val{ color:var(--white); font-size:0.9rem; font-weight:600; line-height:1.4; }
+
+  .profile-section{ margin-bottom:20px; }
+  .profile-section h3{ font-size:1rem; margin:0 0 8px; color:var(--white); }
+  .profile-section p{ color:var(--gray); font-size:0.92rem; line-height:1.6; margin:0; }
+
+  .profile-fact-box{
+    background:linear-gradient(135deg, rgba(255,215,0,0.12), rgba(255,157,0,0.05));
+    border:1px solid var(--border);
+    border-left:3px solid var(--gold);
+    border-radius:12px;
+    padding:14px 16px;
+  }
+  .profile-fact-box .fact-label{
+    display:block;
+    color:var(--gold);
+    font-weight:900;
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+    margin-bottom:6px;
+  }
+  .profile-fact-box p{ margin:0; color:var(--white); font-size:0.92rem; line-height:1.5; }
+
+  @media (max-width:600px){
+    .profile-photo{ width:120px; height:120px; }
+    .profile-stats-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="banner" id="resetBanner">NEW WEEK, NEW RANKINGS!</div>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">C</div>
+    <div class="brand-text"><span class="full">The Ultimate Animal Chad Rankings</span></div>
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab-btn" data-page="rankings">
+      <svg viewBox="0 0 24 24"><path d="M4 19h4v-8H4v8zM10 19h4V5h-4v14zM16 19h4v-11h-4v11z"/></svg>
+      Rankings
+    </button>
+    <button class="tab-btn" data-page="news">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+      News
+    </button>
+    <button class="tab-btn" data-page="poll">
+      <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+      Poll
+    </button>
+    <button class="tab-btn" data-page="stats">
+      <svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+      Stats
+    </button>
+  </div>
+  <div class="reset-chip">Next reset in <span class="cd-val" id="miniCountdown">--</span></div>
+</div>
+
+<div class="container">
+
+  <!-- RANKINGS PAGE -->
+  <section class="page" id="page-rankings">
+    <div class="page-header">
+      <h2>The Rankings</h2>
+      <p>Vote to sway next week's shake-up — placements lock in until the next Monday reset.</p>
+    </div>
+    <div class="hint-strip" id="hintStrip">
+      <svg class="hint-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div class="hint-text">
+        <strong>New here?</strong> Tap <span class="hint-emphasis">&#9650; / &#9660;</span> to vote an animal up or down for next week's rankings, or tap an animal's photo or name to open its full profile.
+      </div>
+      <button class="hint-close" id="hintClose" title="Dismiss" aria-label="Dismiss">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="rank-list" id="rankList"></div>
+  </section>
+
+  <!-- NEWS PAGE -->
+  <section class="page" id="page-news">
+    <div class="page-header">
+      <h2>Breaking Animal News</h2>
+      <p>The stories fueling this week's rankings buzz.</p>
+    </div>
+    <div class="news-feature">
+      <span class="news-label">TODAY'S TOP STORY</span>
+      <span id="newsHeadline"></span>
+    </div>
+    <div class="news-list" id="newsList"></div>
+  </section>
+
+  <!-- POLL PAGE -->
+  <section class="page" id="page-poll">
+    <div class="page-header">
+      <h2>Weekly Poll</h2>
+      <p>One vote per week — results update live.</p>
+    </div>
+    <div class="poll-box">
+      <div class="poll-question">Which animal had the most Chad energy this week?</div>
+      <div id="pollOptions"></div>
+      <div class="poll-note" id="pollNote"></div>
+    </div>
+  </section>
+
+  <!-- STATS PAGE -->
+  <section class="page" id="page-stats">
+    <div class="page-header">
+      <h2>Vote Stats</h2>
+      <p>How the community is voting this week.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><span class="val" id="statTotalVotes">0</span><span class="lbl">Total Votes Cast</span></div>
+      <div class="stat-card"><span class="val" id="statMostUpvoted">-</span><span class="lbl">Most Upvoted</span></div>
+      <div class="stat-card"><span class="val" id="statMostDownvoted">-</span><span class="lbl">Most Downvoted</span></div>
+      <div class="stat-card"><span class="val" id="statMostControversial">-</span><span class="lbl">Most Controversial</span></div>
+    </div>
+    <div class="leaderboard">
+      <h3>Top Upvoted</h3>
+      <div id="lbUpvoted"></div>
+    </div>
+    <div class="leaderboard">
+      <h3>Top Downvoted</h3>
+      <div id="lbDownvoted"></div>
+    </div>
+  </section>
+
+  <!-- ANIMAL PROFILE PAGE -->
+  <section class="page" id="page-animal">
+    <button class="back-link" id="animalBackBtn">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back to Rankings
+    </button>
+    <div id="animalProfile"></div>
+  </section>
+
+</div>
+
+<button class="back-to-top" id="backToTop" title="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<footer>The Ultimate Animal Chad Rankings &mdash; Chad Score is fixed per animal; rank order locks weekly and updates every Monday based on community votes.</footer>
+
+<script>
+(function(){
+
+  /* ---------------------------------------------------------
+     ANIMAL DATA — chadScore is a fixed, cosmetic looks/build
+     stat. It never changes and never determines rank order.
+  --------------------------------------------------------- */
+  const ANIMALS = [
+    {id:"gorilla", name:"Mountain Gorilla", sci:"Gorilla beringei beringei", nick:"The Boardroom Alpha", chadScore:96, desc:"A barrel chest, silver-frosted back, and arms like tree trunks; pure sculpted mass.", img:"https://images.pexels.com/photos/6194629/pexels-photo-6194629.jpeg",
+      habitat:"Montane and bamboo forests of the Virunga Volcanoes and Bwindi Impenetrable Forest, spanning Rwanda, Uganda, and the DR Congo, usually between 2,200–4,300m elevation.",
+      diet:"Herbivore — mostly leaves, stems, shoots, and wild celery, topped off with the occasional bamboo shoot or ant.",
+      weight:"140–220 kg (males), 70–115 kg (females)", size:"Standing height up to 1.8m", lifespan:"35–40 years in the wild", topSpeed:"~40 km/h in a short charge", conservation:"Endangered — roughly 1,000 individuals remain",
+      funFact:"Every gorilla has a unique nose print, as individual as a human fingerprint.",
+      longDesc:"Mountain gorillas are the heavyweight of the great apes, spending their days quietly grazing through dense vegetation to fuel that massive frame — an adult male can pack away over 18kg of plants a day. Troops are led by a dominant silverback, whose graying saddle of fur signals maturity and status. Despite their intimidating size, they're famously gentle and family-oriented, and decades of conservation work in Rwanda and Uganda have slowly pulled the subspecies back from the brink."},
+    {id:"razorbill", name:"Razorbill", sci:"Alca torda", nick:"The North Atlantic Mogger", chadScore:91, desc:"A blade-sharp black-and-white profile with a razor-edged beak and a stare that ends conversations.", img:"https://media.istockphoto.com/id/90881268/it/foto/razorbills-scozia.jpg?s=612x612&w=0&k=20&c=WnUpEGhJ0dUBfp0sf0ow2xtOhPsO0S8BSdhMDxTZOB4=",
+      habitat:"Rocky sea cliffs and offshore islands of the North Atlantic; spends most of the year far out at sea.",
+      diet:"Small schooling fish like sand eels, sprat, and herring, caught on dives down to 120m.",
+      weight:"500–890 g", size:"37–41 cm long, ~65cm wingspan", lifespan:"~20 years", topSpeed:"~60 km/h in flight", conservation:"Least Concern",
+      funFact:"It's the closest living relative of the extinct great auk.",
+      longDesc:"Razorbills are compact, torpedo-shaped seabirds that trade flashy plumage for pure function — that thick, laterally-flattened black bill with its single white stripe is a precision fish-grabbing tool. They're strong underwater swimmers, using their short wings to 'fly' through the water in pursuit of prey, and only come ashore to breed on crowded, vertiginous cliff ledges alongside puffins and guillemots."},
+    {id:"lion", name:"African Lion", sci:"Panthera leo leo", nick:"The Mane Event", chadScore:98, desc:"That golden mane is a permanent flowing cape of confidence.", img:"https://images.unsplash.com/photo-1618641662184-bafefb91a542?q=80&w=2014&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      habitat:"Savannas, grasslands, and open woodlands across sub-Saharan Africa.",
+      diet:"Carnivore — large ungulates like zebra, wildebeest, and buffalo, usually hunted cooperatively by the pride's lionesses.",
+      weight:"150–250 kg (males), 120–182 kg (females)", size:"Up to 2.5m body length plus tail", lifespan:"10–14 years in the wild", topSpeed:"80 km/h in short bursts", conservation:"Vulnerable",
+      funFact:"A lion's roar can be heard from up to 8km away.",
+      longDesc:"Lions are the only truly social big cat, living in prides built around related females while a coalition of males defends the territory and, of course, grows the mane that makes the species instantly iconic. That mane isn't just for show — darker, fuller manes signal higher testosterone and fighting ability to rivals and mates alike. Once ranging across most of Africa and parts of Asia, lion populations have collapsed by over 40% in the last few decades due to habitat loss and conflict with livestock herders."},
+    {id:"secretarybird", name:"Secretary Bird", sci:"Sagittarius serpentarius", nick:"The Stiletto Assassin", chadScore:88, desc:"Impossibly long legs, a slicked-back quiff of feathers, and a lash-lined stare.", img:"https://images.pexels.com/photos/13997320/pexels-photo-13997320.jpeg?h=400&w=400&fit=crop",
+      habitat:"Open grasslands and savanna across sub-Saharan Africa.",
+      diet:"Carnivore — snakes, lizards, rodents, and insects, dispatched with stomping kicks.",
+      weight:"2.3–4.5 kg", size:"Up to 1.3m tall, mostly leg", lifespan:"10–15 years in the wild", topSpeed:"Walks up to 30km a day hunting", conservation:"Endangered",
+      funFact:"Its name comes from its crest of quill-like feathers, which resembled the pens 19th-century clerks tucked behind their ears.",
+      longDesc:"The secretary bird is a raptor that decided walking was cooler than soaring, striding across the savanna on crane-like legs to flush out prey. Its signature move is a rapid, precisely-aimed kick that can deliver several times its own body weight in force — enough to kill a venomous snake in a single strike. Despite that lethal toolkit, the species has been sliding toward extinction as grassland habitat shrinks."},
+    {id:"harpyeagle", name:"Harpy Eagle", sci:"Harpia harpyja", nick:"The Hooded Menace", chadScore:85, desc:"A double-crested feather hood framing an ice-cold, unbothered glare.", img:"https://images.pexels.com/photos/27039418/pexels-photo-27039418/free-photo-of-eagle-in-zoo.jpeg?h=400&w=400&fit=crop",
+      habitat:"Lowland tropical rainforest canopy of Central and South America.",
+      diet:"Carnivore — sloths, monkeys, and other tree-dwelling mammals, snatched directly off branches.",
+      weight:"Up to 9 kg (females); males are notably smaller at ~5 kg", size:"~2m wingspan", lifespan:"25–35 years", topSpeed:"Can strike prey at over 80 km/h in a dive", conservation:"Vulnerable",
+      funFact:"Its talons can grow as large as a grizzly bear's claws, up to 13cm long.",
+      longDesc:"One of the largest and most powerful eagles on Earth, the harpy eagle hunts by ambush, threading its relatively short, broad wings between rainforest branches to surprise prey. That raised, double crest of feathers isn't just intimidating — it helps funnel sound to its ears, sharpening its hearing while it perches motionless for hours. A breeding pair needs a huge, undisturbed stretch of forest, which makes it a sensitive indicator of rainforest health."},
+    {id:"orca", name:"Transient (Bigg's) Orca", sci:"Orcinus orca (Bigg's ecotype)", nick:"The Tuxedo Titan", chadScore:94, desc:"A glossy black-and-white paint job so sharp it looks tailored.", img:"https://images.pexels.com/photos/7767974/pexels-photo-7767974.jpeg",
+      habitat:"Coastal and open waters of the North Pacific, especially the Pacific Northwest.",
+      diet:"Carnivore — marine mammals like seals, sea lions, and even other whales (unlike fish-eating resident orca pods).",
+      weight:"Up to 5,400 kg (males)", size:"Up to 9.8m long", lifespan:"50–80 years, longer for females", topSpeed:"56 km/h", conservation:"Population trend varies by region",
+      funFact:"Bigg's orcas hunt in small, near-silent stealth pods to avoid tipping off sharp-eared marine mammal prey.",
+      longDesc:"Transient, or Bigg's, orcas are the apex predator of the ocean's apex predators — a distinct ecotype from the fish-eating 'residents' that specializes in taking down other marine mammals, from harbor seals to full-grown gray whale calves. They travel in smaller, quieter family groups than resident pods, coordinating ambushes with an almost military precision. That signature black-and-white pattern isn't just striking, it's countershading camouflage that breaks up their outline from both above and below."},
+    {id:"elephant", name:"African Elephant", sci:"Loxodonta africana", nick:"The Gentle Giant", chadScore:82, desc:"Sheer scale, thick armor-skin, and tusks like carved ivory jewelry.", img:"https://media.istockphoto.com/id/479667835/it/foto/sfondo-di-elefante.jpg?s=612x612&w=0&k=20&c=c3NNhffuGQMSXVmBVFWQchMY3uGCf-pmbHXppWMvYoo=",
+      habitat:"Savannas, forests, deserts, and marshes across sub-Saharan Africa.",
+      diet:"Herbivore — grasses, bark, roots, and fruit, up to 150kg of food a day.",
+      weight:"Up to 6,000 kg (males)", size:"Up to 4m at the shoulder", lifespan:"60–70 years", topSpeed:"40 km/h", conservation:"Endangered",
+      funFact:"It's the only mammal that physically can't jump.",
+      longDesc:"The largest land animal alive, the African elephant runs on a matriarchal social structure where an older female leads the herd's memory bank of watering holes and migration routes. Those tusks are actually elongated incisor teeth, used for digging, stripping bark, and sparring, which unfortunately has made the species a target of the ivory trade for over a century. Their trunks pack more than 40,000 muscles, giving them the dexterity to pluck a single blade of grass or uproot a tree."},
+    {id:"jaguar", name:"Amazonian Jaguar", sci:"Panthera onca", nick:"The Rosette King", chadScore:93, desc:"A dense, muscular frame wrapped in the sharpest spotted coat in the animal kingdom.", img:"https://images.pexels.com/photos/36882394/pexels-photo-36882394/free-photo-of-close-up-of-a-jaguar-in-sunlight.jpeg?h=400&w=400&fit=crop",
+      habitat:"Amazon rainforest, wetlands, and dense tropical forest of South and Central America.",
+      diet:"Carnivore — capybara, caiman, deer, and fish; opportunistic and powerful.",
+      weight:"56–96 kg", size:"1.1–1.85m body length plus tail", lifespan:"12–15 years in the wild", topSpeed:"80 km/h", conservation:"Near Threatened",
+      funFact:"It's the only big cat that typically kills by piercing the skull with its bite rather than going for the throat.",
+      longDesc:"Pound for pound, the jaguar has the strongest bite force of any big cat, strong enough to crush turtle shells and caiman skulls outright. Unlike most cats, it's a strong swimmer that happily hunts in and around rivers and flooded forest. The rosette pattern across its coat — each one unique — provides near-perfect camouflage in dappled Amazon light, letting it stalk prey at close range before an explosive final pounce."},
+    {id:"gharial", name:"Gharial", sci:"Gavialis gangeticus", nick:"The Snout Specialist", chadScore:74, desc:"A needle-thin jaw and armored ridges, an unmistakably lethal profile.", img:"https://images.pexels.com/photos/31742371/pexels-photo-31742371/free-photo-of-close-up-of-gharials-resting-by-water-pool.jpeg?h=400&w=400&fit=crop",
+      habitat:"Fast-flowing rivers of the Indian subcontinent, mainly the Chambal and Girwa river systems.",
+      diet:"Carnivore — almost exclusively fish, snapped up with lightning-fast sideways jaw movements.",
+      weight:"Up to 250 kg", size:"Males up to 6m long", lifespan:"~60 years", topSpeed:"Fast in water, nearly immobile on land", conservation:"Critically Endangered",
+      funFact:"Adult males grow a bulbous nasal knob called a 'ghara' — used to make buzzing mating calls and blow bubbles.",
+      longDesc:"The gharial's absurdly long, narrow snout is a hyper-specialized fishing tool, packed with over a hundred interlocking teeth and built to slice sideways through water with minimal resistance. That specialization comes at a cost: gharials are almost entirely helpless on land and can barely walk, only ever hauling out to bask or nest. Fewer than a few hundred breeding adults remain in the wild, making it one of the most endangered crocodilians on the planet."},
+    {id:"grizzly", name:"Grizzly Bear", sci:"Ursus arctos horribilis", nick:"The Woods' Landlord", chadScore:87, desc:"A hulking hump of shoulder muscle that makes every stance a flex.", img:"https://media.istockphoto.com/id/2229394421/it/foto/orso-bruno-in-alaska.jpg?s=612x612&w=0&k=20&c=xoShH4nk1CmcwfH8lLkVphzESJMp1l1ru80MqDPzo60=",
+      habitat:"Forests, alpine meadows, and tundra across Alaska, western Canada, and the northwestern US.",
+      diet:"Omnivore — salmon, berries, roots, and small mammals, with diet shifting heavily by season.",
+      weight:"130–360 kg", size:"1.8–2.4m long", lifespan:"20–25 years in the wild", topSpeed:"56 km/h", conservation:"Least Concern globally, threatened in the lower 48 US",
+      funFact:"A grizzly can smell food from up to 18 miles away.",
+      longDesc:"That signature shoulder hump isn't fat — it's pure muscle, powering the massive foreleg strength grizzlies use to dig dens, flip boulders, and take down prey many times their size. They pack on enormous fat reserves before hibernation, sometimes doubling their body weight during salmon runs. Despite the fearsome reputation, most encounters are avoidable; grizzlies would generally rather not deal with a human either."},
+    {id:"ram", name:"Bighorn Sheep", sci:"Ovis canadensis", nick:"The Curl Bro", chadScore:78, desc:"Massive spiraled horns that look like a natural crown.", img:"https://images.pexels.com/photos/12792487/pexels-photo-12792487.jpeg?h=400&w=400&fit=crop",
+      habitat:"Steep, rocky mountain terrain across western North America.",
+      diet:"Herbivore — grasses, sedges, and shrubs.",
+      weight:"58–143 kg", size:"~1m at the shoulder", lifespan:"9–15 years", topSpeed:"50 km/h across rocky terrain", conservation:"Least Concern",
+      funFact:"A ram's horns can weigh up to 14kg — more than every bone in its body combined.",
+      longDesc:"Bighorn rams settle disputes with head-on collisions at speeds up to 30km/h, a shockwave-absorbing skull structure and those massive curled horns doing the work of a built-in helmet. The horns keep growing throughout life and are never shed, eventually forming a near-complete curl that's a visual record of age and dominance. Specialized hooves with soft, gripping pads let them scale near-vertical cliff faces most predators simply can't follow onto."},
+    {id:"peacock", name:"Indian Peafowl", sci:"Pavo cristatus", nick:"The Runway Regular", chadScore:89, desc:"An iridescent fan of a thousand eyes; nothing dresses harder.", img:"https://media.istockphoto.com/id/2230702580/it/foto/pavone.jpg?s=612x612&w=0&k=20&c=7HbIdm2CSzvEiz6GmLrJWUNn1iyU2AwKibByOU181vw=",
+      habitat:"Forests and farmland across the Indian subcontinent.",
+      diet:"Omnivore — seeds, insects, and small reptiles.",
+      weight:"4–6 kg (males)", size:"Up to 2.3m including train", lifespan:"15–20 years", topSpeed:"N/A — short, heavy-bodied flights only", conservation:"Least Concern",
+      funFact:"A peacock's train can carry up to 200 individual eye-spotted feathers, molted and regrown every year.",
+      longDesc:"That famous train isn't actually the peacock's tail — it's a massively elongated set of upper tail-covert feathers, fanned out and vibrated during courtship displays to catch a peahen's eye (and produce an audible rustling hum). The iridescent color comes from microscopic feather structure bending light rather than pigment, which is why the display shifts and shimmers depending on the angle. All that flash comes at a physical cost: the train is molted completely after each breeding season and regrown from scratch."},
+    {id:"greatwhite", name:"Great White Shark", sci:"Carcharodon carcharias", nick:"The Torpedo Physique", chadScore:90, desc:"A perfectly streamlined gray-and-white gradient build, zero body fat.", img:"https://media.istockphoto.com/id/515714114/it/foto/grande-squalo-bianco-sorridente.jpg?s=612x612&w=0&k=20&c=DGPmYM2qGzbCzS6dKT3S-qfyBrPCB-l_bQu_k-zshxw=",
+      habitat:"Coastal and offshore temperate waters worldwide.",
+      diet:"Carnivore — seals, sea lions, fish, and carrion.",
+      weight:"680–1,100 kg (females larger than males)", size:"4–6m long", lifespan:"70+ years", topSpeed:"25 km/h in short bursts", conservation:"Vulnerable",
+      funFact:"It can detect a single drop of blood diluted in 25 gallons of water, and sense the faint electrical field of a prey animal's heartbeat.",
+      longDesc:"Great whites are warm-blooded in a way most fish aren't, keeping their muscles and organs several degrees above the surrounding water thanks to a specialized circulatory system — a trait that fuels the explosive bursts of speed used to breach clean out of the water while ambushing seals. Their gray-over-white countershading is textbook camouflage: dark from above blends into deep water, pale from below blends into sunlit surface. Despite the reputation, humans are not on the menu; most bites are exploratory."},
+    {id:"shoebill", name:"Shoebill", sci:"Balaeniceps rex", nick:"The Thousand-Yard Stare", chadScore:79, desc:"A stone-faced, statuesque bird with a massive clog of a beak that radiates menace.", img:"https://media.istockphoto.com/id/1158882444/it/foto/shoebill-balaeniceps-rex-uccello-molto-insolito-ed-esotico-dagli-angoli-pi%C3%B9-caldi-dellafrica.jpg?s=612x612&w=0&k=20&c=7pvH7fePEr-LUS4C6qK_apbTNT8PFMR7GeKHLm5C27E=",
+      habitat:"Freshwater swamps of East and Central Africa, including South Sudan, Uganda, and Zambia.",
+      diet:"Carnivore — lungfish, catfish, and occasionally snakes or baby crocodiles.",
+      weight:"4–7 kg", size:"~1.2m tall", lifespan:"~35 years", topSpeed:"N/A — an ambush hunter that can stand motionless for hours", conservation:"Vulnerable",
+      funFact:"It can stand utterly still for hours, then strike with an explosive lunge fast enough to catch fish mid-swim.",
+      longDesc:"The shoebill's namesake bill is a massive, hooked, clog-shaped weapon built to clamp down on slippery swamp fish and, occasionally, hold its footing while wrestling a small crocodile. It hunts through patience rather than speed, freezing in place for so long it's sometimes mistaken for a statue before an explosive strike, called a 'collapse,' where it drops its whole body weight onto prey. Solitary and slow-breeding, it's a rare and prized sighting for birders visiting East African wetlands."},
+    {id:"muskox", name:"Barren-ground Muskox", sci:"Ovibos moschatus moschatus", nick:"The Shaggy Tank", chadScore:76, desc:"A thick mane-skirt draped over a low, dense, immovable frame.", img:"https://media.istockphoto.com/id/1145390698/it/foto/bue-muschiato.jpg?s=612x612&w=0&k=20&c=RrwigF_vWQMhbXvLbqhjWOnsicKvBXbikG9yhPE9Iuw=",
+      habitat:"Arctic tundra of Canada, Greenland, and Alaska.",
+      diet:"Herbivore — grasses, sedges, willows, and moss.",
+      weight:"180–410 kg", size:"~1.5m at the shoulder", lifespan:"12–20 years", topSpeed:"60 km/h in a short charge", conservation:"Least Concern",
+      funFact:"Its wool undercoat, called qiviut, is roughly eight times warmer than sheep's wool.",
+      longDesc:"Muskoxen are Ice Age holdovers, built to shrug off Arctic winters that would kill almost anything else — that shaggy 'skirt' of guard hair sheds wind and snow while the qiviut underlayer traps heat. When threatened, herds form a defensive circle with horns facing outward and calves protected in the center, a formation effective against wolves but sadly useless against rifles, which nearly wiped the species out before conservation efforts intervened."},
+    {id:"stallion", name:"Horse", sci:"Equus ferus caballus", nick:"The Mane Attraction", chadScore:92, desc:"A flowing mane and rippling muscle under a glossy coat.", img:"https://images.pexels.com/photos/12653427/pexels-photo-12653427.jpeg",
+      habitat:"Domesticated worldwide; wild and feral populations roam grasslands and steppe.",
+      diet:"Herbivore — grasses, hay, and grains.",
+      weight:"380–1,000 kg depending on breed", size:"1.4–1.8m at the shoulder", lifespan:"25–30 years", topSpeed:"70 km/h (Thoroughbred racing)", conservation:"Domesticated — not evaluated",
+      funFact:"Horses can sleep both standing and lying down, and get by on as little as 3 hours of sleep a day.",
+      longDesc:"Horses have been selectively bred for millennia into breeds ranging from stocky draft animals to lean racing Thoroughbreds, but the underlying anatomy is built entirely around speed and endurance — a single toe (the hoof), long legs, and a huge heart-to-body-mass ratio in athletic breeds. That flowing mane and tail aren't just aesthetic, they help swat away insects and, in cold climates, add a layer of protection from wind and rain. Horses also have nearly 350-degree panoramic vision, thanks to eyes set on the sides of their head."},
+    {id:"marabou", name:"Marabou Stork", sci:"Leptoptilos crumeniferus", nick:"The Undertaker", chadScore:69, desc:"A bald head, hunched giant frame, and a permanent scowl of pure menace.", img:"https://media.istockphoto.com/id/1125662102/it/foto/cicogna-marabou.jpg?s=612x612&w=0&k=20&c=q4nx1GBebWmn2q3VeblXC8gOac0JK66GiuwhD5Mb2KM=",
+      habitat:"Wetlands and savanna near human settlements across sub-Saharan Africa.",
+      diet:"Scavenger — carrion, fish, insects, and even garbage.",
+      weight:"4–9 kg", size:"Up to 1.5m tall, wingspan up to 3.2m", lifespan:"~25 years", topSpeed:"N/A — a soaring, energy-efficient flier", conservation:"Least Concern",
+      funFact:"Its bald head isn't a fashion choice — it stops blood and gore from matting into feathers while scavenging carcasses.",
+      longDesc:"The marabou stork has one of the largest wingspans of any land bird, letting it soar for hours on thermals while scanning for carrion alongside vultures at kills. That undertaker-black cloak, hunched stance, and bald pink head have earned it a reputation as one of the least conventionally attractive large birds — but it's a hugely effective scavenger, playing an important role in cleaning up carcasses across the savanna ecosystem."},
+    {id:"bison", name:"Plains Bison", sci:"Bison bison bison", nick:"The American Tank", chadScore:81, desc:"A massive shaggy front hump tapering to lean hindquarters, built like a linebacker.", img:"https://images.pexels.com/photos/12792387/pexels-photo-12792387.jpeg?h=400&w=400&fit=crop",
+      habitat:"Grasslands and prairies of North America.",
+      diet:"Herbivore — grasses and sedges.",
+      weight:"460–900 kg (bulls)", size:"~1.8m at the shoulder", lifespan:"15–20 years", topSpeed:"55 km/h despite its size", conservation:"Near Threatened",
+      funFact:"Bison can leap nearly 1.8m vertically and swim rivers with ease.",
+      longDesc:"The plains bison's front-heavy build — that massive shoulder hump is powered by a specialized muscle used to swing its head like a snowplow through winter drifts to reach grass underneath. Once numbering in the tens of millions across the continent, the species was hunted to near-extinction in the 1800s, with fewer than 1,000 left by the 1890s; today's herds are the product of one of conservation history's most dramatic comebacks."},
+    {id:"tiger", name:"Bengal Tiger", sci:"Panthera tigris tigris", nick:"The Stripe Show", chadScore:95, desc:"Bold orange-and-black symmetry stretched over dense, coiled muscle.", img:"https://images.pexels.com/photos/35887182/pexels-photo-35887182.jpeg",
+      habitat:"Forests, grasslands, and mangroves of the Indian subcontinent.",
+      diet:"Carnivore — deer, wild boar, and buffalo.",
+      weight:"90–260 kg (males)", size:"2.7–3.1m long", lifespan:"10–15 years in the wild", topSpeed:"65 km/h", conservation:"Endangered",
+      funFact:"A tiger's stripe pattern is as unique as a human fingerprint — and its skin is striped underneath the fur too, not just the coat.",
+      longDesc:"Bengal tigers are ambush predators, relying on their disruptive stripe pattern to break up their outline in tall grass before closing the final distance in an explosive charge. They're solitary and territorial, marking huge home ranges with scent and claw marks, and are strong swimmers that will readily cross rivers most cats avoid. Despite a century of steep decline, dedicated conservation zones in India have helped Bengal tiger numbers slowly recover in recent years."},
+    {id:"rhino", name:"Indian Rhinoceros", sci:"Rhinoceros unicornis", nick:"The Armored Battering Ram", chadScore:80, desc:"Plated, wrinkled hide and a single sculptural horn.", img:"https://images.pexels.com/photos/21578330/pexels-photo-21578330/free-photo-of-an-indian-rhinoceros.jpeg?h=400&w=400&fit=crop",
+      habitat:"Grasslands and floodplains of Nepal and northeastern India.",
+      diet:"Herbivore — grasses, leaves, and fruit.",
+      weight:"Up to 2,700 kg", size:"~1.75–2m at the shoulder", lifespan:"35–45 years", topSpeed:"55 km/h", conservation:"Vulnerable — a major conservation success story",
+      funFact:"Those armor-like skin folds are actually sensitive, prone to sunburn and insect bites, which is why it wallows in mud constantly.",
+      longDesc:"The Indian rhino's thick, deeply-folded skin looks like it's wearing riveted plate armor, but it's really just loose, tough hide draping over the body — genuinely sensitive skin underneath that needs regular mud wallows for protection from sun and biting insects. It carries a single horn, made of keratin (the same material as human hair and nails), rather than the two horns typical of African rhino species. Once down to just a couple hundred individuals in the early 1900s, strict protection has pushed the population back above 4,000."},
+    {id:"mandrill", name:"Mandrill", sci:"Mandrillus sphinx", nick:"The Technicolor Face Card", chadScore:73, desc:"A vivid blue-and-red painted face that looks airbrushed on.", img:"https://media.istockphoto.com/id/653933996/it/foto/mandrillo-ix.jpg?s=612x612&w=0&k=20&c=vmGJdiQ5Ru6rSBuVD2aTbBp0zGknUeLFdsTpnLv_rtU=",
+      habitat:"Tropical rainforests of Central Africa, including Cameroon, Gabon, and the Congo.",
+      diet:"Omnivore — fruit, seeds, insects, and small vertebrates.",
+      weight:"Up to 30 kg (males)", size:"75–95 cm body length", lifespan:"20–30 years", topSpeed:"N/A — an agile climber and ground runner", conservation:"Vulnerable",
+      funFact:"A male's face and rump colors brighten as testosterone and social rank rise — the most vivid males are the most dominant.",
+      longDesc:"The mandrill is the world's largest monkey species, and males back up that size with the animal kingdom's most vivid facial color palette, produced by collagen fiber structures in the skin that scatter light into deep blues and reds. Rank and hormone levels are broadcast directly through color intensity, making the face a literal status display within the troop. They live in some of the largest primate groups on Earth, with troops sometimes numbering in the hundreds."},
+    {id:"cassowary", name:"Southern Cassowary", sci:"Casuarius casuarius", nick:"The Jurassic Glow-Up", chadScore:77, desc:"A glossy black plume coat, a bone helmet-casque, and a neon blue-and-red neck.", img:"https://images.pexels.com/photos/30227555/pexels-photo-30227555/free-photo-of-close-up-of-a-southern-cassowary-at-zoo.jpeg?h=400&w=400&fit=crop",
+      habitat:"Tropical rainforests of northern Australia and New Guinea.",
+      diet:"Omnivore — mostly fallen fruit, plus fungi and small animals.",
+      weight:"29–58.5 kg (females larger than males)", size:"Up to 1.8m tall", lifespan:"40–50 years", topSpeed:"50 km/h, and can jump 1.5m", conservation:"Least Concern globally, declining locally",
+      funFact:"It's widely considered the world's most dangerous bird, thanks to a dagger-like inner claw up to 12cm long.",
+      longDesc:"That bony helmet, or casque, on top of a cassowary's head is thought to help it push through dense undergrowth and may also amplify its deep, infrasonic booming calls. As one of the rainforest's key fruit-dispersers, it swallows large seeds whole and spreads them across huge home ranges, making it an ecological linchpin for several tree species that depend entirely on cassowaries to reproduce. That reputation for danger is well-earned — a powerful kick from those legs can seriously injure a person, though attacks are rare and typically defensive."},
+    {id:"wolf", name:"Arctic Wolf", sci:"Canis lupus arctos", nick:"The Silver Fox", chadScore:86, desc:"A lean, athletic frame in a thick frost-tipped coat.", img:"https://media.istockphoto.com/id/505246452/it/foto/ululare-lupo-bianco.jpg?s=612x612&w=0&k=20&c=8TWV1Z3iDBE_BYt1bxzChoVDtKOfbaVvjoYtSWm-lOk=", imgStyle:"object-position:15% center;",
+      habitat:"Arctic tundra of northern Canada and Greenland.",
+      diet:"Carnivore — muskoxen, Arctic hares, and caribou.",
+      weight:"35–45 kg", size:"1.5–1.8m long", lifespan:"7–10 years in the wild", topSpeed:"60–70 km/h", conservation:"Least Concern",
+      funFact:"Living in one of the most remote habitats on Earth, Arctic wolves rarely encounter humans and show little natural fear of them.",
+      longDesc:"Arctic wolves are built for extreme cold, with a dense double coat, smaller ears, and a shorter muzzle than their gray wolf cousins to minimize heat loss in temperatures that can plunge well below -30°C. They hunt in tight-knit packs led by a breeding pair, working together to bring down prey many times the size of a single wolf, like muskoxen. Because the high Arctic sees almost no human traffic, these wolves remain some of the last truly wild, undisturbed wolf populations left."},
+    {id:"kingeider", name:"King Eider", sci:"Somateria spectabilis", nick:"The Sculpted Shield Face", chadScore:71, desc:"An almost architectural orange-and-black face shield on a sharp, clean body.", img:"https://media.istockphoto.com/id/1309326852/it/foto/anatra-di-re-eider-nellhabitat.jpg?s=612x612&w=0&k=20&c=QghS1E_Rzn93QeLhJ6AfLJ4X0XtOzxM76YOHLqGY8bw=",
+      habitat:"Arctic coastal waters and tundra across North America, Europe, and Asia.",
+      diet:"Carnivore — mollusks, crustaceans, and echinoderms, retrieved on deep dives.",
+      weight:"1.2–2 kg", size:"47–63 cm long", lifespan:"~18 years", topSpeed:"N/A — can dive to depths of 55m", conservation:"Least Concern, though declining in parts of its range",
+      funFact:"Males sport a bright orange, knobbed bill shield used purely for courtship display.",
+      longDesc:"King eiders are among the deepest-diving ducks in the world, capable of descending over 50m to forage on the seafloor for shellfish. Breeding males trade practicality for spectacle, growing that sculpted orange bill shield and powder-blue crown purely to impress females — a look they shed for duller, camouflaged plumage outside the breeding season. They winter in massive rafts of tens of thousands of birds far out at sea, rarely seen by anyone who isn't an Arctic seabird researcher."},
+    {id:"baldeagle", name:"Northern Bald Eagle", sci:"Haliaeetus leucocephalus alascanus", nick:"The Freedom Flexer", chadScore:83, desc:"A crisp white head against a dark body — high-contrast and iconic.", img:"https://media.istockphoto.com/id/1452315674/it/foto/inquadratura-ravvicinata-dellatterraggio-di-unaquila-calva.jpg?s=612x612&w=0&k=20&c=28Eg3oNCJj9Y7dUS0uDYzgDa9bYcmuXcGy19IMLvhIE=",
+      habitat:"Near lakes, rivers, and coastlines across North America.",
+      diet:"Carnivore and scavenger — mainly fish, plus carrion and waterfowl.",
+      weight:"3–6.3 kg (females larger)", size:"Wingspan up to 2.3m", lifespan:"20–30 years in the wild", topSpeed:"Dives at up to 160 km/h", conservation:"Least Concern — recovered from near-extinction",
+      funFact:"It builds the largest nest of any North American bird, with some recorded nests exceeding 1,000kg.",
+      longDesc:"Bald eagles don't actually get that trademark white head and tail until around 4–5 years old, cycling through several mottled brown juvenile plumages first. Nearly wiped out in the contiguous US by the pesticide DDT, which thinned their eggshells to the point of collapse, the species rebounded dramatically after a 1972 DDT ban and targeted conservation, and was removed from the endangered species list in 2007. Their eyesight is roughly four to eight times sharper than a human's."},
+    {id:"zebra", name:"Plains Zebra", sci:"Equus quagga", nick:"Mr. Monochrome", chadScore:75, desc:"Bold graphic stripes on a lean, athletic build.", img:"https://media.istockphoto.com/id/483230252/it/foto/farfalla-corsa-e-nel-salto.jpg?s=612x612&w=0&k=20&c=XwYh2B5Frb2UnZCsdToCcT-B52_sQB8JmpErM44ToFM=", imgStyle:"object-fit:cover; object-position:85% 15%;",
+      habitat:"Savannas and grasslands of eastern and southern Africa.",
+      diet:"Herbivore — mostly grasses.",
+      weight:"175–385 kg", size:"~1.3m at the shoulder", lifespan:"20–25 years in the wild", topSpeed:"65 km/h", conservation:"Near Threatened",
+      funFact:"Every zebra's stripe pattern is as unique as a fingerprint, and the stripes may help deter biting flies.",
+      longDesc:"Plains zebra stripes are still debated among scientists, but the leading theories point to confusing predators mid-chase, regulating body temperature, and, notably, disrupting the visual cues that biting flies use to land — striped hides get bitten noticeably less than solid-colored ones. They live in stable family groups led by a single stallion and travel in huge mixed herds alongside wildebeest during the Serengeti's annual migration, one of the largest land migrations on the planet."},
+    {id:"snowleopard", name:"Snow Leopard", sci:"Panthera uncia", nick:"The Frosted Physique", chadScore:84, desc:"A thick smoky coat with rosettes, built low and powerful.", img:"https://images.pexels.com/photos/33350559/pexels-photo-33350559/free-photo-of-majestic-snow-leopard-portrait-in-natural-habitat.jpeg?h=400&w=400&fit=crop",
+      habitat:"High-altitude mountains of Central and South Asia, including the Himalayas.",
+      diet:"Carnivore — blue sheep, ibex, and marmots.",
+      weight:"22–55 kg", size:"1–1.3m body length, tail up to 1m", lifespan:"15–18 years", topSpeed:"N/A — an ambush predator that can leap up to 15m", conservation:"Vulnerable",
+      funFact:"Its exceptionally long, thick tail is used for balance on cliffs and wraps around the body like a blanket for warmth at rest.",
+      longDesc:"Snow leopards live at some of the highest, harshest elevations of any big cat, with enlarged nasal cavities to warm frigid thin air and huge, fur-covered paws that act like natural snowshoes. Famously elusive, they're sometimes called the 'ghost of the mountains' — solitary, superbly camouflaged, and so rarely seen that most population estimates rely heavily on camera traps and tracks in the snow rather than direct sightings."},
+    {id:"panther", name:"Melanistic African Leopard", sci:"Panthera pardus (melanistic)", nick:"The Midnight Silhouette", chadScore:72, desc:"A sleek, all-black coat over a lean, coiled physique.", img:"https://media.istockphoto.com/id/531467588/it/foto/nero-jaguar-camminando-verso-visualizzatore.jpg?s=612x612&w=0&k=20&c=fqaFJmMrhYDxuPljcCm1S9w66cMVxgMVRO4oxOAqQzI=",
+      habitat:"Forests and savannas across sub-Saharan Africa, wherever leopards occur — melanism is rarer here than in Southeast Asia.",
+      diet:"Carnivore — antelope, monkeys, and rodents; a highly opportunistic hunter.",
+      weight:"30–90 kg", size:"1–1.9m body length plus tail", lifespan:"12–17 years", topSpeed:"58 km/h", conservation:"Vulnerable",
+      funFact:"Melanism is caused by a recessive gene, and the leopard's rosette pattern is still faintly visible in the right light — sometimes called 'ghost spots.'",
+      longDesc:"A melanistic leopard is genetically identical to a normal spotted leopard — the all-black coat comes from a recessive gene that floods the fur with extra melanin, and the classic rosette pattern is still there underneath, just camouflaged into the dark fur itself. That black coat is thought to offer an edge in dense, low-light forest by making an already stealthy ambush predator even harder to spot. Like all leopards, it's an exceptional climber, frequently hauling kills up into trees to keep them safe from scavengers."},
+    {id:"elk", name:"Rocky Mountain Elk", sci:"Cervus canadensis nelsoni", nick:"The Antler Architect", chadScore:68, desc:"Carries a full chandelier of antlers like it weighs nothing.", img:"https://media.istockphoto.com/id/1298146304/it/foto/alce-toro-nelle-montagne-rocciose.jpg?s=612x612&w=0&k=20&c=sDPSGV2lJA_72rNi3zMaqROlwkQrfiiW8ntvCWuCzxU=",
+      habitat:"Mountain forests and meadows of western North America.",
+      diet:"Herbivore — grasses, shrubs, and bark.",
+      weight:"320–450 kg (bulls)", size:"~1.5m at the shoulder", lifespan:"10–13 years in the wild", topSpeed:"72 km/h", conservation:"Least Concern",
+      funFact:"Bull elk antlers can grow up to 2.5cm a day during summer, among the fastest-growing tissue in the animal kingdom.",
+      longDesc:"Elk antlers are grown entirely fresh each year, starting as blood-rich, velvet-covered cartilage in spring and hardening into bone by autumn's mating season, called the rut. Bulls use them in ritualized sparring matches to establish dominance and mating rights, all while producing a distinctive, echoing bugle call that carries for kilometers across mountain valleys. Come winter, the antlers are shed entirely and the whole energetically expensive process starts over the following spring."},
+    {id:"komodo", name:"Komodo Dragon", sci:"Varanus komodoensis", nick:"The Ancient Bodybuilder", chadScore:70, desc:"Armor-plated scaly skin over a long, low, dense reptilian build.", img:"https://images.pexels.com/photos/29234660/pexels-photo-29234660/free-photo-of-close-up-of-a-komodo-dragon-s-face.jpeg?h=400&w=400&fit=crop",
+      habitat:"Dry savanna and forest on a handful of Indonesian islands, including Komodo, Rinca, and Flores.",
+      diet:"Carnivore — deer, wild boar, water buffalo, and carrion.",
+      weight:"Up to 70kg in the wild (heavier in captivity)", size:"Up to 3m long", lifespan:"~30 years", topSpeed:"20 km/h in short bursts", conservation:"Endangered",
+      funFact:"Its bite delivers venom with anticoagulant compounds that keep prey wounds bleeding and weaken it over time.",
+      longDesc:"The world's largest living lizard, the Komodo dragon combines brute size with a genuinely venomous bite — glands in its lower jaw secrete compounds that prevent blood clotting and drop prey's blood pressure, letting the dragon simply track a wounded animal until it collapses. Confined to just a few Indonesian islands, the entire wild population numbers only a few thousand individuals, making habitat protection on those islands critical to the species' survival."}
+  ];
+
+  const HEADLINES = [
+    "Local Mountain Gorilla Denies Reports of 'Trying Too Hard,' Says It's Just Genetics",
+    "Razorbill Spotted Doing Absolutely Nothing, Still Mogs Entire Coastline",
+    "African Lion's Mane Voted 'Most Likely to Cause an Existential Crisis in Nearby Zebras'",
+    "Secretary Bird Sues Fashion Week for Uncredited Runway Inspiration",
+    "Harpy Eagle Caught Staring at Own Reflection, Reflection Blinks First",
+    "Transient Orca Pod Unanimously Agrees Tuxedos Are Overrated Since They Were Born Wearing One",
+    "African Elephant's Tusks Appraised at Local Jewelry Shop, Shop Immediately Regrets It",
+    "Amazonian Jaguar Denies Using Filters, Insists Rosettes Are 'All Natural'",
+    "Gharial Wins Award for 'Most Terrifying Smile That Somehow Still Works'",
+    "Grizzly Bear Spotted Flexing at Reflection in Frozen Lake",
+    "Bighorn Sheep Headbutts Rival Over Who Has the Better 'Curl Game'",
+    "Indian Peafowl Demands Front Row Seat at Fashion Show, Organizers Comply Immediately",
+    "Great White Shark's Physique Deemed 'Unfair Advantage' by Marine Biologists",
+    "Shoebill's Stare Reportedly Ended Three Arguments Without Saying a Word",
+    "Barren-ground Muskox Voted Most Likely to Survive an Ice Age on Looks Alone",
+    "Horse's Mane Blowing in Wind Named Official Symbol of Freedom",
+    "Marabou Stork's Resting Face Wins 'Scariest Silhouette' Award Third Year Running",
+    "Plains Bison Spotted Casually Walking Through Blizzard Like It's a Light Drizzle",
+    "Bengal Tiger's Stripes Confirmed Symmetrical Down to the Millimeter",
+    "Indian Rhinoceros's Single Horn Voted 'Most Iconic Accessory in the Animal Kingdom'",
+    "Mandrill's Face Paint Job Baffles Scientists, Delights Everyone Else",
+    "Southern Cassowary's Helmet-Casque Reportedly Inspired Three Different Sci-Fi Costume Designers",
+    "Arctic Wolf's Frost-Tipped Coat Named Most Photogenic in Winter Poll",
+    "King Eider's Face Shield Compared to Ancient Armor by Local Ornithologists",
+    "Northern Bald Eagle's Head Feathers Reportedly Whiter Than Fresh Snow",
+    "Plains Zebra's Stripes Confirmed to Be the Original Monochrome Fit",
+    "Snow Leopard Spotted Blending Into Mountain Like It Was Born There, Because It Was",
+    "Melanistic African Leopard's All-Black Coat Named 'Most Slimming Fur' by Wildlife Stylists",
+    "Rocky Mountain Elk's Antlers Reportedly Weigh as Much as a Small Car, Elk Unbothered",
+    "Komodo Dragon's Scales Compared to Medieval Armor by Local Blacksmith",
+    "Breaking: Chad Rankings Community in Shambles After Controversial Upvote Spree",
+    "Scientists Confirm Jawlines in Animal Kingdom Are Getting Sharper Each Generation",
+    "Local Zoo Reports Increased Foot Traffic After Chad Rankings Go Viral",
+    "Study Finds 9 Out of 10 Animals Would Rather Look Good Than Feel Good",
+    "Razorbill Denies Rumors of Working With a Personal Stylist",
+    "Secretary Bird Caught Practicing Runway Walk in Front of Watering Hole",
+    "African Lion Pride Votes Unanimously to Never Question the Mane Again",
+    "Harpy Eagle's Feather Hood Reportedly Inspired a New Streetwear Line",
+    "Transient Orca Community Baffled by Land Animals' Lack of Built-In Tuxedos",
+    "Gharial Spotted Practicing 'Terrifying but Make It Fashion' Pose",
+    "Grizzly Bear's Shoulder Hump Confirmed Not Achievable Through Gym Alone",
+    "Indian Peafowl Feathers Reportedly Visible From Space, Scientists Say 'Probably Not But We Get It'",
+    "Great White Shark's Silhouette Named Most Recognizable Outline in the Ocean",
+    "Barren-ground Muskox Herd Forms Perfect Formation Just to Look Cool for Tourists",
+    "Marabou Stork Spotted Standing Perfectly Still for Six Hours, Just Vibing Ominously",
+    "Plains Bison's Shaggy Mane Reportedly the Original Inspiration for Winter Coats",
+    "Bengal Tiger Caught Practicing Intimidating Stare in Watering Hole Reflection",
+    "Indian Rhinoceros's Wrinkled Hide Compared Favorably to 'Expensive Designer Leather'",
+    "Mandrill Reportedly Unbothered by Comparisons to Abstract Art",
+    "Arctic Wolf Pack Votes Leader Based Purely on 'Aura' for Fourth Year Running",
+    "Snow Leopard's Camouflage So Good Even the Chad Rankings Team Couldn't Find It for the Photo",
+    "Rocky Mountain Elk Spotted Turning Head Slowly Just to Show Off Antlers to Passing Hikers",
+    "Komodo Dragon Voted 'Most Likely to Win a Staring Contest' by Local Fauna",
+    "Chad Rankings Weekly Poll Sees Record Turnout After Secretary Bird Controversy",
+    "Local Naturalist Declares This the 'Golden Age of Animal Aura'",
+    "Breaking: Animal Chad Rankings Community Demands Recount After Close Poll Finish"
+  ];
+
+  /* ---------------------------------------------------------
+     VOTER IDENTITY — a random per-browser id, used only so the
+     shared backend can enforce "one vote per animal per visitor."
+     It carries no personal info and never leaves this device
+     except attached to a vote request.
+  --------------------------------------------------------- */
+  const LS_VOTER = "chadRankings_voterId_v1";
+  const LS_LAST_PERIOD = "chadRankings_lastPeriod_v1";
+  function getVoterId(){
+    let id = localStorage.getItem(LS_VOTER);
+    if (!id){
+      id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2));
+      localStorage.setItem(LS_VOTER, id);
+    }
+    return id;
+  }
+  const VOTER_ID = getVoterId();
+
+  /* ---------------------------------------------------------
+     WEEKLY BOUNDARY (Monday 9:00 AM UTC) — mirrors the server's
+     math in api/_period.js so the countdown shown to every visitor
+     agrees with when the backend will actually roll the week over.
+  --------------------------------------------------------- */
+  function getMostRecentMonday9amUTC(from){
+    const d = new Date(from);
+    const day = d.getUTCDay();
+    let diff = (day + 6) % 7;
+    const monday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 9, 0, 0, 0));
+    monday.setUTCDate(monday.getUTCDate() - diff);
+    if (monday.getTime() > d.getTime()){ monday.setUTCDate(monday.getUTCDate() - 7); }
+    return monday;
+  }
+  function getNextMonday9amUTC(from){
+    const recent = getMostRecentMonday9amUTC(from);
+    const next = new Date(recent);
+    next.setUTCDate(recent.getUTCDate() + 7);
+    return next;
+  }
+
+  /* ---------------------------------------------------------
+     SHARED STATE — fetched from /api/vote's sibling read endpoint,
+     /api/state, which is backed by Vercel KV. Every visitor gets the
+     SAME vote totals, weekly rank order, and poll here — nobody's
+     browser is a silo anymore. Local values below are just a
+     placeholder baseline shown for the instant before the first
+     fetch resolves.
+  --------------------------------------------------------- */
+  const animalMeta = {};
+  ANIMALS.forEach(a => animalMeta[a.id] = a);
+
+  function netVotes(rec){ return rec.upvotes - rec.downvotes; }
+
+  function baselineOrder(){
+    return ANIMALS.slice().sort((a,b) => b.chadScore - a.chadScore || a.name.localeCompare(b.name)).map(a => a.id);
+  }
+
+  let animalState = ANIMALS.map(a => ({ id: a.id, upvotes: 0, downvotes: 0 }));
+  let userVotes = {};
+  let rankOrder = baselineOrder();
+  let pollState = { periodStart: null, options: [], votes: {}, userVoted: null };
+  let serverPeriod = null;
+
+  function getAnimalById(id){ return animalState.find(a => a.id === id); }
+
+  function applyServerState(data){
+    serverPeriod = data.period;
+    rankOrder = data.rankOrder;
+    animalState = ANIMALS.map(a => ({
+      id: a.id,
+      upvotes: (data.votes[a.id] && data.votes[a.id].upvotes) || 0,
+      downvotes: (data.votes[a.id] && data.votes[a.id].downvotes) || 0
+    }));
+    userVotes = Object.assign({}, data.myVotes || {});
+    pollState = {
+      periodStart: data.period,
+      options: data.poll.options,
+      votes: Object.assign({}, data.poll.votes),
+      userVoted: data.poll.myVote
+    };
+  }
+
+  async function fetchServerState(){
+    const res = await fetch(`/api/state?voterId=${encodeURIComponent(VOTER_ID)}`, { cache: "no-store" });
+    if (!res.ok) throw new Error("state fetch failed: " + res.status);
+    return res.json();
+  }
+
+  function maybeShowBanner(newPeriod){
+    const prev = localStorage.getItem(LS_LAST_PERIOD);
+    if (prev && prev !== newPeriod){
+      const banner = document.getElementById("resetBanner");
+      banner.classList.add("show");
+      setTimeout(() => banner.classList.remove("show"), 8000);
+    }
+    localStorage.setItem(LS_LAST_PERIOD, newPeriod);
+  }
+
+  /* ---------------------------------------------------------
+     VOTING — optimistic local update for instant feedback, then a
+     POST to /api/vote which is the source of truth. Placements
+     (rankOrder) stay FROZEN for the week; only the live trend tally
+     updates until the next Monday 9am UTC reset.
+  --------------------------------------------------------- */
+  async function castVote(id, dir){
+    const rec = getAnimalById(id);
+    if (!rec) return;
+    const existing = userVotes[id];
+    const prevUp = rec.upvotes, prevDown = rec.downvotes, prevVote = existing;
+    let flashDir = dir;
+
+    if (existing === dir){
+      if (dir === "up") rec.upvotes = Math.max(0, rec.upvotes - 1);
+      else rec.downvotes = Math.max(0, rec.downvotes - 1);
+      delete userVotes[id];
+      flashDir = "neutral";
+    } else if (existing){
+      if (existing === "up"){ rec.upvotes = Math.max(0, rec.upvotes - 1); rec.downvotes += 1; }
+      else { rec.downvotes = Math.max(0, rec.downvotes - 1); rec.upvotes += 1; }
+      userVotes[id] = dir;
+    } else {
+      if (dir === "up") rec.upvotes += 1; else rec.downvotes += 1;
+      userVotes[id] = dir;
+    }
+
+    renderRankings(id, flashDir);
+    renderStats();
+
+    try{
+      const res = await fetch("/api/vote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ animalId: id, dir, voterId: VOTER_ID })
+      });
+      if (!res.ok) throw new Error("vote failed: " + res.status);
+      const data = await res.json();
+      rec.upvotes = data.upvotes;
+      rec.downvotes = data.downvotes;
+      if (data.myVote) userVotes[id] = data.myVote; else delete userVotes[id];
+      renderRankings(id, flashDir);
+      renderStats();
+    } catch(e){
+      console.error("Vote failed to save, rolling back locally", e);
+      rec.upvotes = prevUp; rec.downvotes = prevDown;
+      if (prevVote) userVotes[id] = prevVote; else delete userVotes[id];
+      renderRankings(id, "neutral");
+      renderStats();
+    }
+  }
+
+  const ARROW_UP = `<svg viewBox="0 0 24 24"><path d="M12 4l8 10h-6v6h-4v-6H4z"/></svg>`;
+  const ARROW_DOWN = `<svg viewBox="0 0 24 24"><path d="M12 20l-8-10h6V4h4v6h6z"/></svg>`;
+  const ARROW_UP_SM = `<svg viewBox="0 0 24 24"><path d="M12 4l7 9h-5v7H10v-7H5z"/></svg>`;
+  const ARROW_DOWN_SM = `<svg viewBox="0 0 24 24"><path d="M12 20l-7-9h5V4h4v7h5z"/></svg>`;
+
+  /* ---------------------------------------------------------
+     RENDER: RANKINGS — order comes from the frozen rankOrder
+     snapshot; only the trend pill / vote counts / buttons update live.
+  --------------------------------------------------------- */
+  function renderRankings(flashId, flashDir){
+    const list = document.getElementById("rankList");
+    const expandedIds = new Set();
+    list.querySelectorAll(".rank-card.expanded").forEach(c => expandedIds.add(c.dataset.animalId));
+
+    list.innerHTML = "";
+    rankOrder.forEach((id, idx) => {
+      const rec = getAnimalById(id);
+      const meta = animalMeta[id];
+      if (!rec || !meta) return;
+      const vote = userVotes[id];
+      const trend = netVotes(rec);
+
+      const card = document.createElement("div");
+      card.className = "rank-card";
+      card.dataset.animalId = id;
+      if (expandedIds.has(id)) card.classList.add("expanded");
+
+      const badgeClass = idx === 0 ? "gold" : idx === 1 ? "silver" : idx === 2 ? "bronze" : "";
+      const tag = idx === 0 ? `<span class="rank-tag">Reigning Chad</span>` : "";
+      const trendClass = trend > 0 ? "pos" : trend < 0 ? "neg" : "";
+      const trendIcon = trend > 0 ? ARROW_UP_SM : trend < 0 ? ARROW_DOWN_SM : "";
+      const trendLabel = trend > 0 ? `+${trend}` : trend < 0 ? `${trend}` : "0";
+
+      card.innerHTML = `
+        <div class="rank-badge ${badgeClass}">${idx+1}</div>
+        <div class="rank-avatar"><img src="${meta.img}" alt="${meta.name}" loading="lazy" style="${meta.imgStyle || ''}" onerror="this.parentElement.textContent='${meta.name.charAt(0)}';"></div>
+        <div class="rank-info">
+          <div class="rank-name-row">
+            <span class="rank-name">${meta.name}</span>
+            ${tag}
+          </div>
+          <div class="rank-nick">"${meta.nick}"</div>
+          <div class="rank-desc">${meta.desc}</div>
+        </div>
+        <div class="rank-score-box"><span class="val">${meta.chadScore}</span><span class="lbl">Chad Score</span></div>
+        <div class="trend-pill ${trendClass}">${trendIcon}${trendLabel}</div>
+        <div class="vote-buttons">
+          <button class="vote-btn ${vote==='up' ? 'active-up' : ''}" data-id="${id}" data-dir="up" title="Upvote">${ARROW_UP}</button>
+          <button class="vote-btn ${vote==='down' ? 'active-down' : ''}" data-id="${id}" data-dir="down" title="Downvote">${ARROW_DOWN}</button>
+        </div>
+        <div class="chevron" title="View profile"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+      `;
+      card.style.animationDelay = (idx * 0.02) + "s";
+      list.appendChild(card);
+
+      card.addEventListener("click", (e) => {
+        if (e.target.closest(".vote-btn")) return;
+        location.hash = "animal-" + id;
+      });
+
+      if (id === flashId){
+        const cls = flashDir === "up" ? "flash-up" : flashDir === "down" ? "flash-down" : "flash-neutral";
+        card.classList.add(cls);
+        setTimeout(() => card.classList.remove("flash-up","flash-down","flash-neutral"), 1000);
+      }
+    });
+
+    list.querySelectorAll(".vote-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        castVote(btn.dataset.id, btn.dataset.dir);
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------
+     RENDER: STATS
+  --------------------------------------------------------- */
+  function animateCount(el, target){
+    const start = parseInt(el.textContent, 10) || 0;
+    if (start === target) return;
+    const duration = 400;
+    const startTime = performance.now();
+    function step(t){
+      const progress = Math.min((t - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(start + (target - start) * eased);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function renderLeaderboard(elId, sortedRecs, key){
+    const el = document.getElementById(elId);
+    el.innerHTML = "";
+    const top = sortedRecs.slice(0, 5).filter(r => r[key] > 0);
+    if (top.length === 0){
+      el.innerHTML = `<div class="lb-row"><span class="lb-name" style="color:var(--gray)">No votes yet this week</span></div>`;
+      return;
+    }
+    top.forEach(r => {
+      const row = document.createElement("div");
+      row.className = "lb-row";
+      row.innerHTML = `<span class="lb-name">${animalMeta[r.id].name}</span><span class="lb-val ${key==='upvotes'?'pos':'neg'}">${r[key]}</span>`;
+      el.appendChild(row);
+    });
+  }
+
+  function renderStats(){
+    let totalVotes = 0;
+    let mostUpvoted = null, mostDownvoted = null, mostControversial = null;
+
+    animalState.forEach(rec => {
+      const total = rec.upvotes + rec.downvotes;
+      totalVotes += total;
+      if (!mostUpvoted || rec.upvotes > mostUpvoted.upvotes) mostUpvoted = rec;
+      if (!mostDownvoted || rec.downvotes > mostDownvoted.downvotes) mostDownvoted = rec;
+      if (!mostControversial || total > (mostControversial.upvotes + mostControversial.downvotes)) mostControversial = rec;
+    });
+
+    animateCount(document.getElementById("statTotalVotes"), totalVotes);
+    document.getElementById("statMostUpvoted").textContent = (mostUpvoted && mostUpvoted.upvotes > 0) ? animalMeta[mostUpvoted.id].name : "—";
+    document.getElementById("statMostDownvoted").textContent = (mostDownvoted && mostDownvoted.downvotes > 0) ? animalMeta[mostDownvoted.id].name : "—";
+    document.getElementById("statMostControversial").textContent = (mostControversial && (mostControversial.upvotes+mostControversial.downvotes) > 0) ? animalMeta[mostControversial.id].name : "—";
+
+    renderLeaderboard("lbUpvoted", animalState.slice().sort((a,b) => b.upvotes - a.upvotes), "upvotes");
+    renderLeaderboard("lbDownvoted", animalState.slice().sort((a,b) => b.downvotes - a.downvotes), "downvotes");
+  }
+
+  /* ---------------------------------------------------------
+     RENDER: NEWS
+  --------------------------------------------------------- */
+  function dayOfYear(d){
+    const start = new Date(d.getFullYear(), 0, 0);
+    return Math.floor((d - start) / (1000*60*60*24));
+  }
+
+  function renderNews(){
+    const todayIdx = dayOfYear(now);
+    document.getElementById("newsHeadline").textContent = HEADLINES[todayIdx % HEADLINES.length];
+
+    const list = document.getElementById("newsList");
+    list.innerHTML = "";
+    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    for (let k = 0; k < 20; k++){
+      const d = new Date(now);
+      d.setDate(d.getDate() - k);
+      const idx = ((dayOfYear(d) % HEADLINES.length) + HEADLINES.length) % HEADLINES.length;
+      const headline = HEADLINES[idx];
+      const animal = ANIMALS[idx % ANIMALS.length];
+      const item = document.createElement("div");
+      item.className = "news-item";
+      item.style.animationDelay = (k * 0.02) + "s";
+      item.innerHTML = `
+        <div class="news-date">${k === 0 ? "TODAY" : monthNames[d.getMonth()] + " " + d.getDate()}</div>
+        <div class="news-headline">${headline}</div>
+        <span class="news-animal-tag">Concerns: ${animal.name}</span>
+      `;
+      list.appendChild(item);
+    }
+  }
+
+  /* ---------------------------------------------------------
+     WEEKLY POLL
+  --------------------------------------------------------- */
+  function getWeekNumber(d){
+    const onejan = new Date(d.getFullYear(), 0, 1);
+    return Math.ceil((((d - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+  }
+
+  async function castPollVote(id){
+    if (pollState.userVoted) return;
+    const prevVotes = Object.assign({}, pollState.votes);
+    pollState.votes[id] = (pollState.votes[id] || 0) + 1;
+    pollState.userVoted = id;
+    renderPoll();
+    try{
+      const res = await fetch("/api/poll-vote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ animalId: id, voterId: VOTER_ID })
+      });
+      if (!res.ok) throw new Error("poll vote failed: " + res.status);
+      const data = await res.json();
+      pollState.votes = data.votes;
+      pollState.userVoted = data.myVote;
+      renderPoll();
+    } catch(e){
+      console.error("Poll vote failed to save, rolling back locally", e);
+      pollState.votes = prevVotes;
+      pollState.userVoted = null;
+      renderPoll();
+    }
+  }
+
+  function renderPoll(){
+    const container = document.getElementById("pollOptions");
+    container.innerHTML = "";
+    const totalVotes = Object.values(pollState.votes).reduce((a,b) => a+b, 0);
+
+    pollState.options.forEach(id => {
+      const meta = animalMeta[id];
+      const votes = pollState.votes[id] || 0;
+      const pct = totalVotes > 0 ? Math.round((votes/totalVotes)*100) : 0;
+      const voted = pollState.userVoted === id;
+      const div = document.createElement("div");
+      div.className = "poll-option" + (voted ? " voted" : "");
+      div.style.animationDelay = (pollState.options.indexOf(id) * 0.1) + "s";
+      div.innerHTML = `
+        <div class="poll-fill" style="width:${pollState.userVoted ? pct : 0}%"></div>
+        <div class="poll-option-content">
+          <span>${meta.name} ${voted ? "(Your Vote)" : ""}</span>
+          <span>${pollState.userVoted ? pct + "%" : ""}</span>
+        </div>
+      `;
+      if (!pollState.userVoted){ div.addEventListener("click", () => castPollVote(id)); }
+      container.appendChild(div);
+    });
+
+    document.getElementById("pollNote").textContent = pollState.userVoted
+      ? `Thanks for voting! ${totalVotes} vote${totalVotes===1?'':'s'} cast this week.`
+      : "Click an animal to cast your vote. One vote per week.";
+  }
+
+  /* ---------------------------------------------------------
+     COUNTDOWN TIMER (mini chip in top bar)
+  --------------------------------------------------------- */
+  function updateCountdown(){
+    const target = getNextMonday9amUTC(new Date());
+    const diff = target - new Date();
+    if (diff <= 0){ syncFromServer(); return; }
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff / (1000*60*60)) % 24);
+    const mins = Math.floor((diff / (1000*60)) % 60);
+    const text = days > 0 ? `${days}d ${hours}h` : `${hours}h ${mins}m`;
+    const el = document.getElementById("miniCountdown");
+    if (el.textContent !== text){
+      el.textContent = text;
+      el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick");
+    }
+  }
+
+  /* ---------------------------------------------------------
+     RENDER: ANIMAL PROFILE PAGE
+  --------------------------------------------------------- */
+  function renderAnimalProfile(id){
+    const meta = animalMeta[id];
+    const rec = getAnimalById(id);
+    const container = document.getElementById("animalProfile");
+    if (!meta || !rec || !container) return;
+
+    const idx = rankOrder.indexOf(id);
+    const trend = netVotes(rec);
+    const vote = userVotes[id];
+    const trendClass = trend > 0 ? "pos" : trend < 0 ? "neg" : "";
+    const trendIcon = trend > 0 ? ARROW_UP_SM : trend < 0 ? ARROW_DOWN_SM : "";
+    const trendLabel = trend > 0 ? `+${trend}` : trend < 0 ? `${trend}` : "0";
+
+    container.innerHTML = `
+      <div class="profile-hero">
+        <img class="profile-photo" src="${meta.img}" alt="${meta.name}" style="${meta.imgStyle || ''}">
+        <div class="profile-hero-info">
+          <div class="profile-rank-badge">#${idx + 1} Overall This Week</div>
+          <h2 class="profile-name">${meta.name}</h2>
+          <div class="profile-sci">${meta.sci || ""}</div>
+          <div class="profile-nick">"${meta.nick}"</div>
+          <div class="profile-score-row">
+            <div class="profile-score"><span class="val">${meta.chadScore}</span><span class="lbl">Chad Score</span></div>
+            <div class="trend-pill ${trendClass}">${trendIcon}${trendLabel}</div>
+          </div>
+          <div class="vote-buttons profile-vote-buttons">
+            <button class="vote-btn ${vote === 'up' ? 'active-up' : ''}" data-id="${id}" data-dir="up" title="Upvote">${ARROW_UP}</button>
+            <button class="vote-btn ${vote === 'down' ? 'active-down' : ''}" data-id="${id}" data-dir="down" title="Downvote">${ARROW_DOWN}</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="profile-blurb">${meta.desc}</p>
+
+      <div class="profile-stats-grid">
+        <div class="profile-stat"><span class="lbl">Habitat</span><span class="val">${meta.habitat || "—"}</span></div>
+        <div class="profile-stat"><span class="lbl">Diet</span><span class="val">${meta.diet || "—"}</span></div>
+        <div class="profile-stat"><span class="lbl">Weight</span><span class="val">${meta.weight || "—"}</span></div>
+        <div class="profile-stat"><span class="lbl">Size</span><span class="val">${meta.size || "—"}</span></div>
+        <div class="profile-stat"><span class="lbl">Lifespan</span><span class="val">${meta.lifespan || "—"}</span></div>
+        <div class="profile-stat"><span class="lbl">Top Speed</span><span class="val">${meta.topSpeed || "—"}</span></div>
+        <div class="profile-stat wide"><span class="lbl">Conservation Status</span><span class="val">${meta.conservation || "—"}</span></div>
+      </div>
+
+      <div class="profile-section">
+        <h3>About</h3>
+        <p>${meta.longDesc || ""}</p>
+      </div>
+
+      <div class="profile-fact-box">
+        <span class="fact-label">Fun Fact</span>
+        <p>${meta.funFact || ""}</p>
+      </div>
+    `;
+
+    container.querySelectorAll(".vote-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        castVote(btn.dataset.id, btn.dataset.dir);
+        renderAnimalProfile(id);
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------
+     TAB NAVIGATION (acts like real pages, hash-routed)
+  --------------------------------------------------------- */
+  const PAGES = ["rankings","news","poll","stats","animal"];
+  function showPage(rawName){
+    let name = rawName;
+    let animalId = null;
+    if (name && name.indexOf("animal-") === 0){
+      animalId = name.slice("animal-".length);
+      name = animalMeta[animalId] ? "animal" : "rankings";
+    }
+    if (PAGES.indexOf(name) === -1) name = "rankings";
+    if (name === "animal"){ renderAnimalProfile(animalId); }
+
+    PAGES.forEach(p => {
+      document.getElementById("page-" + p).classList.toggle("active", p === name);
+    });
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.page === name);
+    });
+    const hashTarget = name === "animal" ? "animal-" + animalId : name;
+    if (location.hash !== "#" + hashTarget){ history.replaceState(null, "", "#" + hashTarget); }
+    window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  }
+  function initNav(){
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => showPage(btn.dataset.page));
+    });
+    document.getElementById("animalBackBtn").addEventListener("click", () => { location.hash = "rankings"; });
+    window.addEventListener("hashchange", () => showPage(location.hash.replace("#","")));
+    showPage(location.hash ? location.hash.replace("#","") : "rankings");
+  }
+
+  /* ---------------------------------------------------------
+     ONBOARDING HINT STRIP
+  --------------------------------------------------------- */
+  const LS_HINT_DISMISSED = "chadRankings_hintDismissed_v1";
+  function initHintStrip(){
+    const strip = document.getElementById("hintStrip");
+    const closeBtn = document.getElementById("hintClose");
+    if (!strip || !closeBtn) return;
+    if (localStorage.getItem(LS_HINT_DISMISSED) === "1"){
+      strip.classList.add("hidden");
+      return;
+    }
+    closeBtn.addEventListener("click", () => {
+      strip.classList.add("hidden");
+      localStorage.setItem(LS_HINT_DISMISSED, "1");
+    });
+  }
+
+  /* ---------------------------------------------------------
+     BACK TO TOP
+  --------------------------------------------------------- */
+  function initBackToTop(){
+    const btn = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => { btn.classList.toggle("show", window.scrollY > 400); });
+    btn.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: "smooth" }); });
+  }
+
+  /* ---------------------------------------------------------
+     LIVE SYNC — pulls the latest shared totals from /api/state and
+     re-renders. Called on load, then on a ~12s timer so vote counts
+     from other visitors show up without a manual refresh, and once
+     more right at the weekly boundary to pick up the frozen order.
+  --------------------------------------------------------- */
+  let syncInFlight = false;
+  async function syncFromServer(){
+    if (syncInFlight) return;
+    syncInFlight = true;
+    try{
+      const data = await fetchServerState();
+      const isFirstLoad = serverPeriod === null;
+      applyServerState(data);
+      if (!isFirstLoad) maybeShowBanner(data.period); else localStorage.setItem(LS_LAST_PERIOD, data.period);
+      renderRankings();
+      renderStats();
+      renderPoll();
+      if (location.hash && location.hash.indexOf("#animal-") === 0){
+        renderAnimalProfile(location.hash.slice("#animal-".length));
+      }
+    } catch(e){
+      console.error("Failed to sync live vote data", e);
+    } finally {
+      syncInFlight = false;
+    }
+  }
+
+  /* ---------------------------------------------------------
+     INIT
+  --------------------------------------------------------- */
+  renderNews();
+  renderRankings();
+  renderStats();
+  renderPoll();
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+  initNav();
+  initBackToTop();
+  initHintStrip();
+
+  syncFromServer();
+  setInterval(syncFromServer, 12000);
+
+})();
+</script>
+</body>
+</html>
